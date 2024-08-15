@@ -1,0 +1,34 @@
+:root {
+    --bgcolor: #2d3552;
+    --text-primary: #f7fafc;
+    --accent-color: linear-gradient(45deg, rgb(170, 14, 14),rgb(214, 21, 21));
+    --text-secondary: #d5d5d5;
+    --dark-primary: rgb(66, 66, 66);
+    --icon-primary: rgb(92, 90, 90);
+    --text-xs: clamp(.8rem, 1.25vw, .9rem);
+    --text-sm: clamp(1rem, 1.5vw, 1.1rem);
+    --text-base: clamp(1.2rem, 1.75vw, 1.6rem);
+    --text-lg: clamp(1.4rem, 2vw, 2rem);
+    --text-xl: clamp(1.6rem, 2.25vw, 2.4rem);
+    --text-2xl: clamp(1.8rem, 2.5vw, 2.8rem);
+    --text-3xl: clamp(2rem, 3vw, 3.2rem);
+    --text-4xl: clamp(2.2rem, 3.5vw, 3.6rem);
+    --text-5xl: clamp(2.4rem, 4vw, 4rem);
+    --text-6xl: clamp(2.6rem, 4.5vw, 4.4rem);
+    --text-7xl: clamp(2.8rem, 5vw, 4.8rem);
+}
+main{
+    display: flex;
+    justify-content: center;
+    background-color: var(--bgcolor);
+}
+section{
+    max-width: 1280px;
+    margin: auto;
+}
+.welcome_wrapper{
+    padding: 30px 40px;
+}
+h1{
+    font-weight: 600;
+}
