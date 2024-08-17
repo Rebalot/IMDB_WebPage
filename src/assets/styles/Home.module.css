@@ -1,0 +1,23 @@
+:root {
+    
+}
+h1{
+    font-size: 2.5rem;
+}
+h2{
+    font-size: 2rem;
+}
+main{
+    display: flex;
+    justify-content: center;
+}
+section{
+    max-width: 1280px;
+    margin: auto;
+}
+.welcome_wrapper{
+    padding: 30px 40px;
+}
+h1{
+    font-weight: 600;
+}

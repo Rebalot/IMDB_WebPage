@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import { NavLink } from "react-router-dom";
-import styles from '../styles/Home.module.css'
+import styles from '../assets/styles/Home.module.css'
+import Carousel from "../components/Carousel";
 
 const Home = () => {
     const urlMovie = 'https://api.themoviedb.org/3/discover/movie'
@@ -40,6 +41,9 @@ const Home = () => {
                     <div className={styles.welcome_wrapper}>
                         <h1>Welcome!</h1>
                         <h2>Millions of movies,TV shows and people to discover. Explore now.</h2>
+                        <div>
+                            <Carousel></Carousel>
+                        </div>
                     </div>
                     <SearchBar></SearchBar>
                 </section>

@@ -1,13 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'Roboto';
-  src: url('./fonts/Roboto/Roboto-Regular.ttf') format('truetype');
-  /* Agrega más formatos según sea necesario, como .ttf, .otf, etc. */
+  src: url('./assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
 }
 :root {
   --font-family: "Roboto", sans-serif;
   --bgcolor: #161b30;
   --text-primary: #f7fafc;
-  --accent-color: linear-gradient(45deg, rgb(170, 14, 14),rgb(214, 21, 21));
   --text-secondary: #d5d5d5;
   --dark-primary: rgb(66, 66, 66);
   --icon-primary: rgb(92, 90, 90);
@@ -28,7 +30,6 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
-  color: var(--text-primary);
 }
 body{
   background-color: var(--bgcolor);
