@@ -19,8 +19,7 @@
     margin: auto;
 }
 .searchInput{
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius) !important;
 }
 .searchBtn{
     border-top-left-radius: 0;

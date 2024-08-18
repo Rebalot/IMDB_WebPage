@@ -31,8 +31,26 @@ const Home = () => {
         }
 
         obtenerMoviesTendencia();
-    }, []);
 
+        async function obtenerTrailersTendenciaYoutube() {
+            const apiKey = 'AIzaSyCgljdJ1kdRAmv2mrHhbEhFE1ZDjL0HCE8';
+            const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=US&videoCategoryId=1&key=${apiKey}`;
+
+            fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+        }
+    }, []);
+    
+    const items = [
+        { title: 'Alien', image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/watch?v=cj85e-1tgyI&t=416s" },
+        { title: 'Alien',  image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
+        { title: 'Alien',  image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
+        { title: 'Alien',  image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/embed/trailer1" },
+        { title: 'Alien',  image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
+        { title: 'Alien',  image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
+    ];
     return (
         <>
             <Navbar></Navbar>
@@ -42,7 +60,7 @@ const Home = () => {
                         <h1>Welcome!</h1>
                         <h2>Millions of movies,TV shows and people to discover. Explore now.</h2>
                         <div>
-                            <Carousel></Carousel>
+                            <Carousel items={items}></Carousel>
                         </div>
                     </div>
                     <SearchBar></SearchBar>
