@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import { NavLink } from "react-router-dom";
 import styles from '../assets/styles/Home.module.css'
@@ -53,7 +52,6 @@ const Home = () => {
     ];
     return (
         <>
-            <Navbar></Navbar>
             <main>
                 <section>
                     <div className={styles.welcome_wrapper}>
