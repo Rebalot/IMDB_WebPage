@@ -20,12 +20,13 @@ function NavbarComponent() {
       {['sm'].map((expand) => (
         <Navbar key={expand} expand={expand} className={classNames(styles.nav, 'mb-3')}>
           <Container className={classNames(styles.container, 'ps-4', 'pe-4')}>
-          <Navbar.Brand href="#Home" className={classNames(styles.brand, 'me-5')}>
+          <Navbar.Brand href="#Home" className={classNames(styles.brand, 'me-5')}><NavLink to="/">
             <img
               src={imdbLogo}
               className={classNames(styles.brand_svg, 'd-inline-block', 'align-top')}
               alt="IMDB logo"
             />
+            </NavLink>
           </Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas

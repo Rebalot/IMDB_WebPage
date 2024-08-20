@@ -6,9 +6,12 @@ import Carousel from "../components/Carousel";
 
 const Popular = () => {
     const urlMovie = 'https://api.themoviedb.org/3/movie/popular'
+
+    const [listaPeliculas, setListaPeliculas] = useState([])
+
     useEffect(() => {
-        async function obtenerMoviesTendencia() {
-            const newUrl = `${urlMovie}`;
+        const consultarPeliculas = async () => {
+            const url = "https://api.themoviedb.org/3/discover/movie"
             const options = {
                 method: 'GET',
                 headers: {
@@ -17,39 +20,39 @@ const Popular = () => {
                 }
             };
             try {
-                const response = await fetch(newUrl, options);
-                if (!response.ok) {
-                    throw new Error('Error al obtener data');
-                }
-                const dataObtenida = await response.json();
-                console.log('Data obtenida correctamente');
-                return dataObtenida;
-            } catch (error) {
-                console.error('Error al obtener data', error);
+                const response = await fetch(url, options)
+                const json = await response.json()
+                console.log(json)
+                setListaPeliculas(json.results);
+                console.log(listaPeliculas)
+            }
+            catch (e) {
+                console.log(e)
             }
         }
+        consultarPeliculas();
 
-        obtenerMoviesTendencia();
 
-        async function obtenerTrailersTendenciaYoutube() {
-            const apiKey = 'AIzaSyCgljdJ1kdRAmv2mrHhbEhFE1ZDjL0HCE8';
-            const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=US&videoCategoryId=1&key=${apiKey}`;
-
-            fetch(url)
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
-        }
-    }, []);
+        /*    async function obtenerTrailersTendenciaYoutube() {
+                const apiKey = 'AIzaSyCgljdJ1kdRAmv2mrHhbEhFE1ZDjL0HCE8';
+                const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&regionCode=US&videoCategoryId=1&key=${apiKey}`;
     
-    const items = [
-        { title: 'Alien', image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/watch?v=cj85e-1tgyI&t=416s" },
-        { title: 'Alien',  image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
-        { title: 'Alien',  image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
-        { title: 'Alien',  image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/embed/trailer1" },
-        { title: 'Alien',  image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
-        { title: 'Alien',  image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
-    ];
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error));
+            }*/
+    }, []);
+
+    /*  const items = [
+          { title: 'Alien', image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/watch?v=cj85e-1tgyI&t=416s" },
+          { title: 'Alien', image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
+          { title: 'Alien', image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
+          { title: 'Alien', image: "https://linktoimage1.com", trailerUrl: "https://www.youtube.com/embed/trailer1" },
+          { title: 'Alien', image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
+          { title: 'Alien', image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
+      ];*/
+
     return (
         <>
             <main>
@@ -58,7 +61,16 @@ const Popular = () => {
                         <h1>Bienvenido</h1>
                         <h2>Peliculas populares</h2>
                         <div>
-                            <Carousel items={items}></Carousel>
+                            <ul>
+                            {
+                listaPeliculas.map((pelicula, index) => {
+                    return (
+                        <li key={index}>{pelicula.title.charAt(0).toUpperCase()+pelicula.title.slice(1)}</li>
+                    )
+                })
+            }
+                            </ul>
+
                         </div>
                     </div>
                     <SearchBar></SearchBar>
