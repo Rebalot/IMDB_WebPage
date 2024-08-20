@@ -11,7 +11,7 @@ const Popular = () => {
 
     useEffect(() => {
         const consultarPeliculas = async () => {
-            const url = "https://api.themoviedb.org/3/discover/movie"
+            const url = "https://api.themoviedb.org/3/movie/popular"
             const options = {
                 method: 'GET',
                 headers: {
