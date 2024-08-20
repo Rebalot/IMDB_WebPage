@@ -8,7 +8,7 @@ const RoutesIndex = () => {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/popular' element={<Popular />} />
+            <Route path='/Popular' element={<Popular />} />
         </Routes>
     )
 }

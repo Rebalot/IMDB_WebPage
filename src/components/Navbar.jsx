@@ -10,6 +10,8 @@ import classNames from 'classnames';
 import styles from '../assets/styles/Navbar.module.css';
 import imdbLogo from '../assets/images/logos/IMDB.png';
 import searchBtn from '../assets/images/buttons/search.svg';
+import { NavLink } from 'react-router-dom';
+import Popular from '../pages/Popular';
 
 function NavbarComponent() {
 
@@ -56,7 +58,7 @@ function NavbarComponent() {
                     title="Movies"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="#Popular_movies">Popular</NavDropdown.Item>
+                    <NavDropdown.Item> <NavLink to="/Popular">Popular</NavLink></NavDropdown.Item>
                     <NavDropdown.Item href="#NowPlaying_movies">
                       Now Playing
                     </NavDropdown.Item>

@@ -55,8 +55,8 @@ const Popular = () => {
             <main>
                 <section>
                     <div className={styles.welcome_wrapper}>
-                        <h1>Welcome!</h1>
-                        <h2>Millions of movies,TV shows and people to discover. Explore now.</h2>
+                        <h1>Bienvenido</h1>
+                        <h2>Peliculas populares</h2>
                         <div>
                             <Carousel items={items}></Carousel>
                         </div>
