@@ -12,9 +12,16 @@
     border-radius: 0 !important;
     width: 100% !important;
     height: 100% !important;
+    
 }
 .modal_header{
-
+    /* padding: 20px 20px 20px 20px !important;
+    max-height: 55px; */
+    display: flex !important;
+    align-items: center !important;
+}
+.modal_header h3{
+    margin: 0 !important;
 }
 .modal_body{
     display: flex;

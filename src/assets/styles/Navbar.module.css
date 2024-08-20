@@ -25,6 +25,10 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
-.peopleTab .dropdown-menu{
-    left: -55px !important;
+
+
+@media (max-width: 1400px) {
+    .peopleTab > div{
+        left: -60px !important;
+    }
 }
