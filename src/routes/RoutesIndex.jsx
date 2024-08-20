@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home';
+import Popular from '../pages/Popular';
 
 
 const RoutesIndex = () => {
@@ -7,6 +8,7 @@ const RoutesIndex = () => {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/popular' element={<Popular />} />
         </Routes>
     )
 }
