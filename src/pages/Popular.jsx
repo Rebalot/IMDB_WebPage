@@ -11,7 +11,7 @@ const Popular = () => {
 
     useEffect(() => {
         const consultarPeliculas = async () => {
-            const url = "https://api.themoviedb.org/3/discover/movie"
+            const url = "https://api.themoviedb.org/3/movie/popular"
             const options = {
                 method: 'GET',
                 headers: {
@@ -24,7 +24,6 @@ const Popular = () => {
                 const json = await response.json()
                 console.log(json)
                 setListaPeliculas(json.results);
-                console.log(listaPeliculas)
             }
             catch (e) {
                 console.log(e)
@@ -52,7 +51,6 @@ const Popular = () => {
           { title: 'Alien', image: "https://linktoimage2.com", trailerUrl: "https://www.youtube.com/embed/trailer2" },
           { title: 'Alien', image: "https://linktoimage3.com", trailerUrl: "https://www.youtube.com/embed/trailer3" },
       ];*/
-
     return (
         <>
             <main>
