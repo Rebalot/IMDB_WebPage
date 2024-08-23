@@ -25,6 +25,7 @@ const Movie_Popular = () => {
                 const json = await response.json()
                 console.log(json)
                 setListaPeliculas(json.results);
+                console.log(listaPeliculas)
             }
             catch (e) {
                 console.log(e)
@@ -54,8 +55,10 @@ const Movie_Popular = () => {
                                         <Card style={{ width: '200px', height: '450px'}} >
                                         <Card.Img variant="top" src={imageURL} />
                                         <Card.Body>
-                                            <Card.Title>{pelicula.title.charAt(0).toUpperCase() + pelicula.title.slice(1)}</Card.Title>
+                                            <Card.Title>{pelicula.title}</Card.Title>
+                                            <NavLink to={`/movieDetail/${pelicula.id}`}>
                                             <Button variant="primary">Go somewhere</Button>
+                                            </NavLink>
                                         </Card.Body>
                                     </Card>
                                     </Col>
