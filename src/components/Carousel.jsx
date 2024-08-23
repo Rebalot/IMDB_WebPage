@@ -42,6 +42,9 @@ export function CarouselComponent({ items }) {
           {items.map((item, index) => (
             <div key={index} onClick={() => openModalWithTrailer(item.title, item.trailerUrl)} className={classNames(styles.backdrop_container)}>
               <img src={item.image} alt={`${item.title}`} />
+              <div className={classNames(styles.trailerName_container)}>
+                <h4 className={classNames(styles.trailerName)}>{item.title}</h4>
+              </div>
             </div>
           ))}
         </Carousel>

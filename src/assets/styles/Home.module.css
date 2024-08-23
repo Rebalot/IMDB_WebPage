@@ -26,7 +26,11 @@ section{
     padding: 30px 40px;
 }
 h1{
-    font-weight: 600;
+    font-weight: 600 !important;
+    margin-bottom: 1rem !important;
+}
+.carousel_container{
+    margin-top: 2.5rem;
 }
 
 @media (min-width: 1200px) {
