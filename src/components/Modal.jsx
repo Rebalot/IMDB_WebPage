@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Button, Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import YoutubePlayer from "./YoutubePlayer";
 import styles from '../assets/styles/Modal.module.css'
 

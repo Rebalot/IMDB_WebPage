@@ -11,7 +11,7 @@ import styles from '../assets/styles/Navbar.module.css';
 import imdbLogo from '../assets/images/logos/IMDB.png';
 import searchBtn from '../assets/images/buttons/search.svg';
 import { NavLink } from 'react-router-dom';
-import Popular from '../pages/Popular';
+import Popular from '../pages/Movie_Popular';
 
 function NavbarComponent() {
 
@@ -20,13 +20,12 @@ function NavbarComponent() {
       {['sm'].map((expand) => (
         <Navbar key={expand} expand={expand} className={classNames(styles.nav, 'mb-3')}>
           <Container className={classNames(styles.container, 'ps-4', 'pe-4')}>
-          <Navbar.Brand href="#Home" className={classNames(styles.brand, 'me-5')}><NavLink to="/">
+          <Navbar.Brand className={classNames(styles.brand, 'me-5', styles.navlink_a)} as={NavLink} to="/">
             <img
               src={imdbLogo}
               className={classNames(styles.brand_svg, 'd-inline-block', 'align-top')}
               alt="IMDB logo"
             />
-            </NavLink>
           </Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
@@ -59,14 +58,14 @@ function NavbarComponent() {
                     title="Movies"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item> <NavLink to="/Popular">Popular</NavLink></NavDropdown.Item>
-                    <NavDropdown.Item href="#NowPlaying_movies">
+                    <NavDropdown.Item as={NavLink} to="/movie/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to="/movie/now-playing" className={classNames(styles.navlink_a)}>
                       Now Playing
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#Upcoming_movies">
+                    <NavDropdown.Item as={NavLink} to="/movie/upcoming" className={classNames(styles.navlink_a)}>
                       Upcoming
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#TopRated_movies">
+                    <NavDropdown.Item as={NavLink} to="/movie/top-rated" className={classNames(styles.navlink_a)}>
                       Top Rated
                     </NavDropdown.Item>
                   </NavDropdown>
@@ -74,14 +73,14 @@ function NavbarComponent() {
                     title="TV Shows"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="#Popular_tv">Popular</NavDropdown.Item>
-                    <NavDropdown.Item href="#AiringToday_tv">
+                    <NavDropdown.Item as={NavLink} to="/tv/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to="/tv/airing-today" className={classNames(styles.navlink_a)}>
                       Airing Today
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#OnTV_tv">
+                    <NavDropdown.Item as={NavLink} to="/tv/on-tv" className={classNames(styles.navlink_a)}>
                       On TV
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#TopRated_tv">
+                    <NavDropdown.Item as={NavLink} to="/tv/top-rated" className={classNames(styles.navlink_a)}>
                       Top Rated
                     </NavDropdown.Item>
                   </NavDropdown>
@@ -90,7 +89,7 @@ function NavbarComponent() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                     className={classNames(styles.peopleTab)}
                   >
-                    <NavDropdown.Item href="#PopularPeople_people">Popular People</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to="/people/popular-people" className={classNames(styles.navlink_a)}>Popular People</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Offcanvas.Body>
