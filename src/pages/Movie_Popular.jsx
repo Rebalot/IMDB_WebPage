@@ -57,7 +57,7 @@ const Movie_Popular = () => {
                                         <Card.Body>
                                             <Card.Title>{pelicula.title}</Card.Title>
                                             <NavLink to={`/movieDetail/${pelicula.id}`}>
-                                            <Button variant="primary">Go somewhere</Button>
+                                            <Button variant="primary">Mas info</Button>
                                             </NavLink>
                                         </Card.Body>
                                     </Card>
