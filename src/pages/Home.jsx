@@ -3,6 +3,7 @@ import SearchBar from "../components/SearchBar";
 import { NavLink } from "react-router-dom";
 import styles from '../assets/styles/Home.module.css'
 import Carousel from "../components/Carousel";
+import PosterGallery from "../components/PosterGallery";
 
 const Home = () => {
     const urlMovieBase = 'https://api.themoviedb.org/3/discover/movie';
@@ -134,7 +135,7 @@ const Home = () => {
                             )}
                         </div>
                     </div>
-                    <SearchBar></SearchBar>
+                    <PosterGallery></PosterGallery>
                 </section>
             </main>
         </>
