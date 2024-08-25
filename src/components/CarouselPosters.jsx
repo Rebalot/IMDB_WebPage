@@ -2,10 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import classNames from "classnames";
+import styles from "../assets/styles/CarouselPosters.module.css";
 
-
-
-function PostersComponent({ title, tabsData }) {
+function PostersComponent({ postersData }) {
+  console.log('posters data: ', postersData)
 //Setting for slick-carousel
 const settings = {
     dots: true,
@@ -44,7 +45,7 @@ const settings = {
   return (
     <div className="slider-container">
       <Slider {...settings}>
-      {tabData.carouselItems.map((posterData, index) => (
+      {postersData.map((posterData, index) => (
                   <div className={classNames(styles.poster_container)} key={index}>
                     <h4>{posterData.title}</h4>
                   </div>

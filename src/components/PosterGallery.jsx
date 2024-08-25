@@ -12,6 +12,7 @@ import classNames from "classnames";
 import styles from "../assets/styles/PosterGallery.module.css";
 
 import { motion } from "framer-motion";
+import CarouselPosters from "./CarouselPosters";
 
 function PosterGalleryComponent({ title, tabsData }) {
   
@@ -27,7 +28,7 @@ function PosterGalleryComponent({ title, tabsData }) {
   };
 
   //For chips (navigation pills animation)
-  const Chip = ({ text, selected, setBasicActive }) => {
+  const Chip = ({ text, selected }) => {
     return (
       <button
         onClick={() => {
@@ -66,7 +67,6 @@ function PosterGalleryComponent({ title, tabsData }) {
                 as={MDBTabsLink}
                 text={tabData.tabTitle}
                 selected={basicActive === tabData.tabTitle}
-                setSelected={setBasicActive}
                 active={basicActive === tabData.tabTitle}
               />
             </MDBTabsItem>
@@ -76,7 +76,9 @@ function PosterGalleryComponent({ title, tabsData }) {
       <MDBTabsContent>
         
         {tabsData.map((tabData, index) => (
-          <MDBTabsPane open={basicActive === tabData.tabTitle} key={index}><h4>{tabData.carouselItems[0].title}</h4></MDBTabsPane>
+          <MDBTabsPane open={basicActive === tabData.tabTitle} key={index}>
+            <CarouselPosters postersData={tabData.carouselItems}></CarouselPosters>
+            </MDBTabsPane>
         ))}
       </MDBTabsContent>
     </div>

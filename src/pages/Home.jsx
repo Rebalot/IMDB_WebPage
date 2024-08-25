@@ -54,7 +54,7 @@ const Home = () => {
           releaseDate: "2024-09-15",
         },
         {
-          title: "Movie Title 1",
+          title: "Movie Title 6",
           rating: 7.8,
           backdropImg: "path_to_image1.jpg",
           releaseDate: "2024-09-15",
@@ -101,7 +101,7 @@ const Home = () => {
           releaseDate: "2024-10-01",
         },
         {
-          title: "TV Show Title 1",
+          title: "TV Show Title 7",
           rating: 8.2,
           backdropImg: "path_to_image2.jpg",
           releaseDate: "2024-10-01",
