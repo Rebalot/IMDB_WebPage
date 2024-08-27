@@ -44,12 +44,12 @@ const Movie_Popular = () => {
             <main>
                 <section>
                     <div className={styles.welcome_wrapper}>
-                        <h1>Bienvenido</h1>
-                        <h2>Peliculas populares</h2>
+                        
+                        <h1>Peliculas populares</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {
-                                    const imageURL = `https://media.themoviedb.org/t/p/w440_and_h660_face/${pelicula.backdrop_path}`
+                                    const imageURL = `https://media.themoviedb.org/t/p/w220_and_h330_face/${pelicula.poster_path}`
                                     return (
                                         <Col key={index}>
                                         <Card style={{ width: '200px', height: '450px'}} >
