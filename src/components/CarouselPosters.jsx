@@ -4,16 +4,17 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import classNames from "classnames";
 import styles from "../assets/styles/CarouselPosters.module.css";
+import { NavLink } from "react-router-dom";
 
 function PostersComponent({ postersData }) {
-  console.log('posters data: ', postersData)
+// console.log(postersData)
 //Setting for slick-carousel
 const settings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 7,
+    slidesToScroll: 7,
     initialSlide: 0,
     responsive: [
       {
@@ -46,10 +47,14 @@ const settings = {
     <div className="slider-container">
       <Slider {...settings}>
       {postersData.map((posterData, index) => (
-                  <div className={classNames(styles.poster_container)} key={index}>
-                    <h4>{posterData.title}</h4>
-                  </div>
-                ))}
+        <NavLink to={`/${posterData.tipo === 'movie' ? `movie/${posterData.id}` : `tv/${posterData.id}`}`} key={index}>
+          <div className={classNames(styles.poster_container)} >
+          <img src={posterData.imgUrl}></img>
+          <h4>{posterData.title}</h4>
+          </div>
+        </NavLink>
+        
+      ))}
       </Slider>
     </div>
   );

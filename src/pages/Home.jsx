@@ -4,13 +4,13 @@ import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/Home.module.css";
 import Carousel from "../components/CarouselTrailers";
 import PosterGallery from "../components/PosterGallery";
-import Chips from "../components/Chips";
+
 const Home = () => {
   const urlMovieBase = "https://api.themoviedb.org/3/discover/movie";
   const urlTVBase = "https://api.themoviedb.org/3/discover/tv";
 
-  const [carouselData, setCarouselData] = useState({});
-
+  const [trailersData, setTrailersData] = useState({});
+  const [trendingData, setTrendingData] = useState({});
   const options = {
     method: "GET",
     headers: {
@@ -19,102 +19,13 @@ const Home = () => {
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNDEzNjFjN2U4MzQzYmU5NTdiNGE1MGU1OWIxNzNiZiIsIm5iZiI6MTcyMzE3MzgxOC4wMzYxMDUsInN1YiI6IjY2YjQzNTFmYjJkMWM1NWM3OTZmMjNmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.L24aOuGVERuuekN14gSCAXJMte02hky1GALzw9O1w4o",
     },
   };
-  const tabsData = [
-    {
-      tabTitle: "Upcoming Movies",
-      carouselItems: [
-        {
-          title: "Movie Title 1",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-        {
-          title: "Movie Title 1",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-        {
-          title: "Movie Title 1",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-        {
-          title: "Movie Title 1",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-        {
-          title: "Movie Title 1",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-        {
-          title: "Movie Title 6",
-          rating: 7.8,
-          backdropImg: "path_to_image1.jpg",
-          releaseDate: "2024-09-15",
-        },
-      ],
-    },
-    {
-      tabTitle: "Popular TV Shows",
-      carouselItems: [
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 1",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-        {
-          title: "TV Show Title 7",
-          rating: 8.2,
-          backdropImg: "path_to_image2.jpg",
-          releaseDate: "2024-10-01",
-        },
-      ],
-    },
-    // más tabs
-  ];
+
   ///////////////////////////
   useEffect(() => {
-    startupData();
-    async function startupData() {
-      const allData = await obtenerListaProximas();
+    startupTrailersData();
+    startupTendingData();
+    async function startupTrailersData() {
+      const allData = await listaProximasData();
 
       if (allData) {
         const listaConTrailerMovies = await obtenerListaConTrailer(
@@ -140,7 +51,7 @@ const Home = () => {
             trailersData.hasOwnProperty("movie_trailer") &&
             trailersData.hasOwnProperty("tvshow_trailer")
           ) {
-            console.log("trailers data: ", trailersData);
+            // console.log("trailers data: ", trailersData);
             const moviesTrailersPopulares = trailersData.movie_trailer.slice(
               0,
               4
@@ -161,87 +72,146 @@ const Home = () => {
               }
               i++;
             }
-            setCarouselData(combinedTrailers);
+            setTrailersData(combinedTrailers);
           }
         }
       }
-    }
+      async function listaProximasData() {
+        //primary_release_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01)
+        const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2024-08-15&sort_by=popularity.desc`;
+  
+        //first_air_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01), with_origin_country (US, para evitar que hayan muchos resultados de origen cn, kr, jp que no suelen ser de gusto general)
+        const urlTV = `${urlTVBase}?first_air_date.gte=2024-08-15&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`;
+  
+        try {
+          const [movieResponse, tvResponse] = await Promise.all([
+            fetch(urlMovie, options),
+            fetch(urlTV, options),
+          ]);
+  
+          const movieData = await movieResponse.json();
+          const tvData = await tvResponse.json();
+          const allData = {
+            movieData,
+            tvData,
+          };
+          // console.log("Lista próximas allData: ", allData);
+          return allData;
+        } catch (error) {
+          console.error("Error al obtener data", error);
+        }
+      }
+  
+      async function obtenerListaConTrailer(tipo, arrayAIterar) {
+        if (arrayAIterar.length === 0) return;
+        // Iterar sobre cada película para obtener todos los videos disponibles y posteriormente obtener unicamente el que sea el trailer oficial
+        const listaVideosPromises = arrayAIterar.map(async (item) => {
+          //item es cada una de las peliculas o tvshows próximos, con el fin de obtener el id y posteriormente buscar sus videos disponibles
+          const videosUrl = `https://api.themoviedb.org/3/${tipo}/${item.id}/videos`;
+  
+          const response = await fetch(videosUrl, options);
+          if (!response.ok) {
+            throw new Error(`Error al obtener videos de ${item.id}`);
+          }
+          const videosData = await response.json();
+  
+          // Buscar el trailer oficial dentro de la propiedad results, donde se encuentran los videos disponibles de la pelicula/tvshow.
+          const officialTrailer = videosData.results.find(
+            (video) =>
+              video.type === "Trailer" && video.name === "Official Trailer"
+          );
+  
+          //Mantiene las propiedades originales y agrega la propiedad official_trailer, en caso de no contar con uno, el value será null.
+          return {
+            ...item,
+            official_trailer: officialTrailer ? officialTrailer : null,
+          };
+        });
+  
+        const updatedElement = await Promise.all(listaVideosPromises);
+  
+        return updatedElement;
+      }
+      function transformarDataCarousel(arrayAFiltrar) {
+        //Para descartar las películas o shows que no cuentan con official trailer
+        const listaConTrailerDisponible = arrayAFiltrar.filter(
+          (item) => item.official_trailer !== null
+        );
+        console.log('listaConTrailerDisponible', listaConTrailerDisponible)
+        const dataEndpoints = listaConTrailerDisponible.map((item) => {
 
-    async function obtenerListaProximas() {
-      //primary_release_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01)
-      const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2024-08-15&sort_by=popularity.desc`;
-
-      //first_air_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01), with_origin_country (US, para evitar que hayan muchos resultados de origen cn, kr, jp que no suelen ser de gusto general)
-      const urlTV = `${urlTVBase}?first_air_date.gte=2024-08-15&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`;
-
-      try {
-        const [movieResponse, tvResponse] = await Promise.all([
-          fetch(urlMovie, options),
-          fetch(urlTV, options),
-        ]);
-
-        const movieData = await movieResponse.json();
-        const tvData = await tvResponse.json();
-        const allData = {
-          movieData,
-          tvData,
-        };
-        console.log("allData: ", allData);
-        return allData;
-      } catch (error) {
-        console.error("Error al obtener data", error);
+          return {
+            title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
+            image: `https://media.themoviedb.org/t/p/w1920_and_h427_multi_faces/${item.backdrop_path}`,
+            trailerUrl: `https://www.youtube.com/watch?v=${item.official_trailer.key}`,
+            id: item.id,
+            tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
+          };
+        });
+        return dataEndpoints;
       }
     }
 
-    async function obtenerListaConTrailer(tipo, arrayAIterar) {
-      if (arrayAIterar.length === 0) return;
-      // Iterar sobre cada película para obtener todos los videos disponibles y posteriormente obtener unicamente el que sea el trailer oficial
-      const listaVideosPromises = arrayAIterar.map(async (elemento) => {
-        //elemento es cada una de las peliculas o tvshows próximos, con el fin de obtener el id y posteriormente buscar sus videos disponibles
-        const videosUrl = `https://api.themoviedb.org/3/${tipo}/${elemento.id}/videos`;
-
-        const response = await fetch(videosUrl, options);
-        if (!response.ok) {
-          throw new Error(`Error al obtener videos de ${elemento.id}`);
+    async function startupTendingData(){
+      const allData = await trendingData();
+      if (allData) {
+        const mapTrendingData = (data) => {
+          return data.map(item => ({
+            title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
+            rating: item.vote_average,
+            imgUrl: `https://media.themoviedb.org/t/p/w220_and_h330_face/${item.poster_path}`,
+            releaseDate: item.release_date,
+            id: item.id,
+            tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
+          }));
         }
-        const videosData = await response.json();
 
-        // Buscar el trailer oficial dentro de la propiedad results, donde se encuentran los videos disponibles de la pelicula/tvshow.
-        const officialTrailer = videosData.results.find(
-          (video) =>
-            video.type === "Trailer" && video.name === "Official Trailer"
-        );
-
-        //Matiene las propiedades originales y agrega la propiedad official_trailer, en caso de no contar con uno, el value será null.
-        return {
-          ...elemento,
-          official_trailer: officialTrailer ? officialTrailer : null,
-        };
-      });
-
-      const updatedElement = await Promise.all(listaVideosPromises);
-
-      return updatedElement;
+        const listaTrendingMovies = mapTrendingData(allData.movieData.results);
+        const listaTrendingTv = mapTrendingData(allData.tvData.results);
+        
+        // console.log('listaTrendingMovies: ', listaTrendingMovies)
+        // console.log('listaTrendingTv: ', listaTrendingTv)
+        const dataPosterGallery = ()=>{
+          return [
+          {
+            tabTitle: "Movies",
+            carouselItems: [...listaTrendingMovies]
+          },
+          {
+            tabTitle: "TV shows",
+            carouselItems: [...listaTrendingTv]
+          }
+          ];
+        }
+        setTrendingData(dataPosterGallery);
+      }
+      async function trendingData(){
+        const urlTrendingMovie = 'https://api.themoviedb.org/3/trending/movie/day?language=en-US';
+        const urlTrendingTv = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US';
+        try {
+          const [movieResponse, tvResponse] = await Promise.all([
+            fetch(urlTrendingMovie, options),
+            fetch(urlTrendingTv, options),
+          ]);
+  
+          const movieData = await movieResponse.json();
+          const tvData = await tvResponse.json();
+          const allData = {
+            movieData,
+            tvData,
+          };
+          // console.log("Lista trending allData: ", allData);
+          return allData;
+        } catch (error) {
+          console.error("Error al obtener data", error);
+        }
+      }
     }
-    function transformarDataCarousel(arrayAFiltrar) {
-      //Para descartar las películas o shows que no cuentan con official trailer
-      const listaConTrailerDisponible = arrayAFiltrar.filter(
-        (elemento) => elemento.official_trailer !== null
-      );
-      const dataEndpoints = listaConTrailerDisponible.map((elemento) => {
-        const name = elemento.hasOwnProperty("original_title")
-          ? elemento.original_title
-          : elemento.original_name;
-        return {
-          title: name,
-          image: `https://media.themoviedb.org/t/p/w1920_and_h427_multi_faces/${elemento.backdrop_path}`,
-          trailerUrl: `https://www.youtube.com/watch?v=${elemento.official_trailer.key}`,
-        };
-      });
-      return dataEndpoints;
-    }
+    
   }, []);
-
+  useEffect(() => {
+    // console.log(trendingData)
+  }, []);
   return (
     <>
       <main>
@@ -252,12 +222,12 @@ const Home = () => {
               Millions of movies,TV shows and people to discover. Explore now.
             </h2>
             <div className={styles.carousel_container}>
-              {carouselData.length > 0 && <Carousel items={carouselData} />}
+              {trailersData.length > 0 && <Carousel items={trailersData} />}
             </div>
           </div>
         </section>
         <section>
-          <PosterGallery title="Trending" tabsData={tabsData}></PosterGallery>
+        {trendingData.length > 0 && <PosterGallery title="Trending" tabsData={trendingData} />}
         </section>
         <section></section>
       </main>
