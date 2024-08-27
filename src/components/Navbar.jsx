@@ -42,7 +42,7 @@ function NavbarComponent() {
               <Form className={classNames(styles.searchBar, 'd-flex', 'flex-grow-1')}> 
                   <Form.Control
                     type="search"
-                    placeholder="Search"
+                    placeholder="Buscar"
                     className={classNames(styles.searchInput)}
                     aria-label="Search"
                   />
@@ -55,41 +55,19 @@ function NavbarComponent() {
                 </Form>
                 <Nav className="ms-5">
                 <NavDropdown
-                    title="Movies"
+                    title="Películas"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item as={NavLink} to="/movie/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/now-playing" className={classNames(styles.navlink_a)}>
-                      Now Playing
+                      Reproduciendo ahora
                     </NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/upcoming" className={classNames(styles.navlink_a)}>
-                      Upcoming
+                      Proximamente
                     </NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/top-rated" className={classNames(styles.navlink_a)}>
-                      Top Rated
+                      Mejores valoradas
                     </NavDropdown.Item>
-                  </NavDropdown>
-                  <NavDropdown
-                    title="TV Shows"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                    <NavDropdown.Item as={NavLink} to="/tv/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/airing-today" className={classNames(styles.navlink_a)}>
-                      Airing Today
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/on-tv" className={classNames(styles.navlink_a)}>
-                      On TV
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/top-rated" className={classNames(styles.navlink_a)}>
-                      Top Rated
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                  <NavDropdown
-                    title="People"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                    className={classNames(styles.peopleTab)}
-                  >
-                    <NavDropdown.Item as={NavLink} to="/people/popular-people" className={classNames(styles.navlink_a)}>Popular People</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Offcanvas.Body>
