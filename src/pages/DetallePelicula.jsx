@@ -40,9 +40,10 @@ function DetallePelicula() {
     
     return (
         <>
+        <div style={{height:'90vh'}}>
         {detalleItem && (
             <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <Card style={{ width: '80vw' }}>
+                <Card style={{ width: '80vw'}}>
                 <Card.Img variant="top" src={detalleItem.imageURL} style={{ position: 'relative', border: 'none' }} onLoad={handleImageLoad}/>
                 {imageLoaded && (
                 <ListGroup variant="bottom" className="list-group-flush" style={{ position: 'absolute', bottom: 0, width: '100%'}}>
@@ -66,6 +67,7 @@ function DetallePelicula() {
                 </Card>
             </div>
         )}
+        </div>
         </>
     );
 }
