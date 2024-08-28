@@ -7,12 +7,12 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const NowPlaying = () => {
+const TopRated = () => {
 
     const [listaPeliculas, setListaPeliculas] = useState([])
     useEffect(() => {
         const consultarPeliculas = async () => {
-            const url = "https://api.themoviedb.org/3/movie/now_playing"
+            const url = "https://api.themoviedb.org/3/movie/top_rated"
             const options = {
                 method: 'GET',
                 headers: {
@@ -45,7 +45,7 @@ const NowPlaying = () => {
                 <section>
                     <div className={styles.welcome_wrapper}>
                         
-                        <h1>En cartelera</h1>
+                        <h1>Mejores valoradas</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {
@@ -76,4 +76,4 @@ const NowPlaying = () => {
     )
 }
 
-export default NowPlaying;
+export default TopRated;

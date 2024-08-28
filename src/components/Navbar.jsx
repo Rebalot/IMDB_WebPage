@@ -60,7 +60,7 @@ function NavbarComponent() {
                   >
                     <NavDropdown.Item as={NavLink} to="/movie/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/now-playing" className={classNames(styles.navlink_a)}>
-                      Reproduciendo ahora
+                      En cartelera
                     </NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/upcoming" className={classNames(styles.navlink_a)}>
                       Proximamente
