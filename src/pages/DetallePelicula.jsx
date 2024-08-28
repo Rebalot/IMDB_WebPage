@@ -35,9 +35,10 @@ function DetallePelicula() {
             }
         }
         consultarDetalleItem();
-
+        
     }, []);
-    
+    console.log(detalleItem)
+
     return (
         <>
         <div style={{height:'90vh'}}>
@@ -45,8 +46,13 @@ function DetallePelicula() {
             <div style={{ display: 'flex', justifyContent: 'center'}}>
                 <Card style={{ width: '80vw'}}>
                 <Card.Img variant="top" src={detalleItem.imageURL} style={{ position: 'relative', border: 'none' }} onLoad={handleImageLoad}/>
+                <Card.Header style={{zIndex:'10', border:'5px solid purple', 
+                    borderRadius:"200px", height:'100px', 
+                    position: 'absolute', right:"30px", top:'30px', backgroundColor:"#6e779c", 
+                    color:"white", display:'flex', alignItems: 'center', textAlign:"center", fontSize:'40px'}}>
+                    {detalleItem.vote_average.toFixed(1)}</Card.Header>
                 {imageLoaded && (
-                <ListGroup variant="bottom" className="list-group-flush" style={{ position: 'absolute', bottom: 0, width: '100%'}}>
+                <ListGroup variant="bottom" className="list-group-flush" style={{ position: 'absolute', bottom: "-188px", width: '100%'}}>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', fontSize: '30px' }}>
                     {detalleItem.hasOwnProperty("original_title") ? detalleItem.original_title : detalleItem.name}
                     </ListGroup.Item>
@@ -54,7 +60,7 @@ function DetallePelicula() {
                     {detalleItem.overview}
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
-                    Calificación: {detalleItem.vote_average}
+                    Sitio Web: <a href={detalleItem.homepage}>{detalleItem.homepage}</a>
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
                     País: {detalleItem.origin_country}
