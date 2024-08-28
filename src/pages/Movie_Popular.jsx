@@ -56,7 +56,7 @@ const Movie_Popular = () => {
                                         <Card.Img variant="top" src={imageURL} />
                                         <Card.Body>
                                             <Card.Title>{pelicula.title}</Card.Title>
-                                            <NavLink to={`/movieDetail/${pelicula.id}`}>
+                                            <NavLink to={`/movie/${pelicula.id}`}>
                                             <Button variant="primary">Mas info</Button>
                                             </NavLink>
                                         </Card.Body>

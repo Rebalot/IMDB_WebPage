@@ -52,9 +52,7 @@ function PosterGalleryComponent({ title, tabsData }) {
       </button>
     );
   };
-  useEffect(() => {
-    console.log("basicActiveActual: ", basicActive);
-  }, [basicActive]);
+
   return (
     <div className={classNames(styles.gallery_container)}>
       <div className={classNames(styles.gallery_header)}>
@@ -78,7 +76,7 @@ function PosterGalleryComponent({ title, tabsData }) {
         {tabsData.map((tabData, index) => (
           <MDBTabsPane open={basicActive === tabData.tabTitle} key={index}>
             <CarouselPosters postersData={tabData.carouselItems}></CarouselPosters>
-            </MDBTabsPane>
+          </MDBTabsPane>
         ))}
       </MDBTabsContent>
     </div>

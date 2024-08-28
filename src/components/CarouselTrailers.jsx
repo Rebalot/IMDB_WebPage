@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import { useState } from "react";
 import classNames from "classnames";
 import styles from "../assets/styles/Carousel.module.css";
+import { NavLink } from "react-router-dom";
 
 export function CarouselComponent({ items }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,12 +75,13 @@ export function CarouselComponent({ items }) {
             <div
               key={index}
               onClick={() => openModalWithTrailer(item.title, item.trailerUrl)}
-              className={classNames(styles.backdrop_container)}
-            >
+              className={classNames(styles.backdrop_container)}>
+
               <img src={item.image} alt={`${item.title}`} />
               <div className={classNames(styles.trailerName_container)}>
-                <h4 className={classNames(styles.trailerName)}>{item.title}</h4>
+                <NavLink to={`/${item.tipo === 'movie' ? `movie/${item.id}` : `tv/${item.id}`}`}><h4 className={classNames(styles.trailerName)}>{item.title}</h4></NavLink>
               </div>
+
             </div>
           ))}
         </Carousel>

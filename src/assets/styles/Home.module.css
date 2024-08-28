@@ -20,12 +20,13 @@ main{
     justify-content: center;
 }
 section{
-    max-width: 1280px;
+    max-width: 1200px;
     margin: auto;
 }
-.welcome_wrapper{
+section > div{
     padding: 30px 40px;
 }
+
 h1{
     font-weight: 600 !important;
     margin-bottom: 1rem !important;
@@ -33,6 +34,7 @@ h1{
 .carousel_container{
     margin-top: 2.5rem;
 }
+
 
 @media (min-width: 1200px) {
     h1 {
