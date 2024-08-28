@@ -22,7 +22,7 @@ function DetallePelicula() {
         
         const consultarDetalleItem = async () => {
             try {
-                const response = await fetch(`https://api.themoviedb.org/3/${typeDetail}/${id}`, options)
+                const response = await fetch(`https://api.themoviedb.org/3/${typeDetail}/${id}?language=es-ES`, options)
                 
                 const json = await response.json();
                 const imageURL = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/${json.backdrop_path}`
