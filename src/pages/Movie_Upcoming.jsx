@@ -45,7 +45,7 @@ const Upcoming = () => {
                 <section>
                     <div className={styles.welcome_wrapper}>
                         
-                        <h1>Proximamente</h1>
+                        <h1>Upcoming</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {

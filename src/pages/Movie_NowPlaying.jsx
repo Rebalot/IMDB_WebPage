@@ -45,7 +45,7 @@ const NowPlaying = () => {
                 <section>
                     <div className={styles.welcome_wrapper}>
                         
-                        <h1>En cartelera</h1>
+                        <h1>Now Playing</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {

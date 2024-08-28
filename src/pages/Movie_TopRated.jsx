@@ -45,7 +45,7 @@ const TopRated = () => {
                 <section>
                     <div className={styles.welcome_wrapper}>
                         
-                        <h1>Mejores valoradas</h1>
+                        <h1>Top Rated</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {

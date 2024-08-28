@@ -2,9 +2,9 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from '../pages/Home';
 import MoviePopular from '../pages/Movie_Popular';
 import DetallePelicula from '../pages/DetallePelicula';
-import NowPlaying from '../pages/NowPlaying';
-import TopRated from '../pages/TopRated';
-import Upcoming from '../pages/Upcoming';
+import NowPlaying from '../pages/Movie_NowPlaying';
+import TopRated from '../pages/Movie_TopRated';
+import Upcoming from '../pages/Movie_Upcoming';
 import { useEffect } from 'react';
 
 const RoutesIndex = ({ onLoadComplete, onLoading }) => {
@@ -13,7 +13,7 @@ const RoutesIndex = ({ onLoadComplete, onLoading }) => {
     useEffect(() => {
         onLoading();
         const loadData = async () => {
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 2200));
             onLoadComplete();
         };
     loadData();

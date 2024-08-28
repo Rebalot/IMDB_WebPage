@@ -40,7 +40,6 @@ function DetallePelicula() {
     function redondearVotos(value){
         return value.toFixed(1);
     };
-    console.log(detalleItem)
 
     return (
         <>

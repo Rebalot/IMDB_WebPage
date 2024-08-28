@@ -45,7 +45,7 @@ const Movie_Popular = () => {
                 <section>
                     <div className={styles.welcome_wrapper}>
                         
-                        <h1>Peliculas populares</h1>
+                        <h1>Popular Movies</h1>
                         <Row style={{gap: '20px'}}>
                             {
                                 listaPeliculas.map((pelicula, index) => {

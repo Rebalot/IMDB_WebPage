@@ -9,7 +9,7 @@ import "react-circular-progressbar/dist/styles.css";
 import styles from "../assets/styles/CarouselPosters.module.css";
 
 function PostersComponent({ postersData }) {
-  console.log(postersData);
+  // console.log(postersData);
   //Setting for slick-carousel
   const settings = {
     dots: true,

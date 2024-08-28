@@ -23,6 +23,7 @@
 .modal_header h3{
     margin: 0 !important;
     font-weight: 600 !important;
+    font-size: 1.4rem !important;
 }
 .modal_body{
     display: flex;

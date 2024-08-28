@@ -8,13 +8,12 @@ import {
   MDBTabsPane,
 } from "mdb-react-ui-kit";
 
-import classNames from "classnames";
 import styles from "../assets/styles/PosterGallery.module.css";
 
 import { motion } from "framer-motion";
 import CarouselPosters from "./CarouselPosters";
 
-function PosterGalleryComponent({ title, tabsData }) {
+function PosterGalleryComponent({ title, subtitle, tabsData }) {
   
   const [basicActive, setBasicActive] = useState(tabsData[0].tabTitle);
 
@@ -37,7 +36,7 @@ function PosterGalleryComponent({ title, tabsData }) {
         }}
         className={`${
           selected
-            ? "text-white"
+            ? "text-black font-bold"
             : "text-slate-300 hover:text-slate-200 hover:bg-slate-700"
         } text-sm transition-colors px-2.5 py-0.5 rounded-md relative`}
       >
@@ -46,7 +45,7 @@ function PosterGalleryComponent({ title, tabsData }) {
           <motion.span
             layoutId="pill-tab"
             transition={{ type: "spring", duration: 0.5 }}
-            className="absolute inset-0 z-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-md"
+            className="absolute inset-0 z-0 bg-gradient-to-r from-[#f6c700] via-[#f6a700] to-[#f68200] rounded-md"
           ></motion.span>
         )}
       </button>
@@ -54,9 +53,16 @@ function PosterGalleryComponent({ title, tabsData }) {
   };
 
   return (
-    <div className={classNames(styles.gallery_container)}>
-      <div className={classNames(styles.gallery_header)}>
-        <h3>{title}</h3>
+    <div className={styles.gallery_container}>
+      <div className={styles.gallery_header}>
+        {subtitle ? (
+          <div className={styles.title_container}>
+            <h3>{title}</h3>
+            <h4 className={styles.subtitle}>{subtitle}</h4>
+          </div>
+        ) : (
+          <h3>{title}</h3>
+        )}
 
         <MDBTabs pills className={`mb-3 ${styles.tabPills}`}>
           {tabsData.map((tabData, index) => (

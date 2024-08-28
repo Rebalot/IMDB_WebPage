@@ -138,7 +138,7 @@ const Home = ({ onLoadComplete }) => {
         const listaConTrailerDisponible = arrayAFiltrar.filter(
           (item) => item.official_trailer !== null
         );
-        console.log('listaConTrailerDisponible', listaConTrailerDisponible)
+        // console.log('listaConTrailerDisponible', listaConTrailerDisponible)
         const dataEndpoints = listaConTrailerDisponible.map((item) => {
 
           return {
@@ -208,9 +208,57 @@ const Home = ({ onLoadComplete }) => {
         }
       }
     }
+    async function startupPopularPeopleData(){
+      const allData = await popularPeopleData();
+      if (allData) {
+        // const mapTrendingData = (data) => {
+        //   return data.map(item => ({
+        //     title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
+        //     rating: item.vote_average,
+        //     imgUrl: `https://media.themoviedb.org/t/p/w220_and_h330_face/${item.poster_path}`,
+        //     releaseDate: item.hasOwnProperty("release_date") ? item.release_date : item.first_air_date,
+        //     id: item.id,
+        //     tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
+        //   }));
+        // }
+
+        // const listaTrendingMovies = mapTrendingData(allData.movieData.results);
+        // const listaTrendingTv = mapTrendingData(allData.tvData.results);
+        
+        // // console.log('listaTrendingMovies: ', listaTrendingMovies)
+        // // console.log('listaTrendingTv: ', listaTrendingTv)
+        // const dataPosterGallery = ()=>{
+        //   return [
+        //   {
+        //     tabTitle: "Movies",
+        //     carouselItems: [...listaTrendingMovies]
+        //   },
+        //   {
+        //     tabTitle: "TV shows",
+        //     carouselItems: [...listaTrendingTv]
+        //   }
+        //   ];
+        // }
+        // setTrendingData(dataPosterGallery);
+      }
+      async function popularPeopleData(){
+        const urlPopularPeople = 'https://api.themoviedb.org/3/person/popular';
+        
+        try {
+          const peopleResponse = await fetch(urlPopularPeople, options);
+  
+          const peopleData = await peopleResponse.json();
+
+          console.log("Lista popular people: ", peopleData);
+          return peopleData;
+        } catch (error) {
+          console.error("Error al obtener data", error);
+        }
+      }
+    }
     async function loadAllData(){
       try {
-        await Promise.all([startupTrailersData(), startupTendingData()]);
+        await Promise.all([startupTrailersData(), startupTendingData(), startupPopularPeopleData()]);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -257,7 +305,19 @@ const Home = ({ onLoadComplete }) => {
             )}
           </div>
         </section>
-        <section></section>
+        <section>
+        <div className={styles.byPlatform_container}>
+          {loading ? (
+              <div className={styles.spinner_wrapper}>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            ) : (
+              trendingData.length > 0 && <PosterGallery title="Popular" subtitle="byPlatform" tabsData={trendingData} />
+            )}
+          </div>
+        </section>
       </main>
     </>
   );
