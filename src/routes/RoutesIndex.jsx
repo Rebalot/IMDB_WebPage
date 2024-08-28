@@ -1,14 +1,23 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from '../pages/Home';
 import MoviePopular from '../pages/Movie_Popular';
 import DetallePelicula from '../pages/DetallePelicula';
 import NowPlaying from '../pages/NowPlaying';
 import TopRated from '../pages/TopRated';
 import Upcoming from '../pages/Upcoming';
+import { useEffect } from 'react';
 
+const RoutesIndex = ({ onLoadComplete, onLoading }) => {
+    const location = useLocation();
 
-
-const RoutesIndex = () => {
+    useEffect(() => {
+        onLoading();
+        const loadData = async () => {
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            onLoadComplete();
+        };
+    loadData();
+    }, [location]);
 
     return (
         <Routes>
@@ -20,6 +29,6 @@ const RoutesIndex = () => {
             <Route path='/:typeDetail/:id' element={<DetallePelicula />} />
         </Routes>
     )
-}
+};
 
 export default RoutesIndex;

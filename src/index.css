@@ -9,6 +9,7 @@
 :root {
   --font-family: "Roboto", sans-serif;
   --bgcolor: #161b30;
+  --bgcolor-secondary: rgb(246,199,0);
   --text-primary: #f7fafc;
   --text-secondary: #d5d5d5;
   --dark-primary: rgb(66, 66, 66);

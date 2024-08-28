@@ -4,11 +4,13 @@ import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/Home.module.css";
 import Carousel from "../components/CarouselTrailers";
 import PosterGallery from "../components/PosterGallery";
+import { Spinner } from "react-bootstrap";
 
-const Home = () => {
+const Home = ({ onLoadComplete }) => {
   const urlMovieBase = "https://api.themoviedb.org/3/discover/movie";
   const urlTVBase = "https://api.themoviedb.org/3/discover/tv";
 
+  const [loading, setLoading] = useState(true);
   const [trailersData, setTrailersData] = useState({});
   const [trendingData, setTrendingData] = useState({});
   const options = {
@@ -22,8 +24,7 @@ const Home = () => {
 
   ///////////////////////////
   useEffect(() => {
-    startupTrailersData();
-    startupTendingData();
+    loadAllData();
     async function startupTrailersData() {
       const allData = await listaProximasData();
 
@@ -78,10 +79,10 @@ const Home = () => {
       }
       async function listaProximasData() {
         //primary_release_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01)
-        const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2024-08-15&sort_by=popularity.desc`;
+        const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2024-08-20&sort_by=popularity.desc`;
   
         //first_air_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01), with_origin_country (US, para evitar que hayan muchos resultados de origen cn, kr, jp que no suelen ser de gusto general)
-        const urlTV = `${urlTVBase}?first_air_date.gte=2024-08-15&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`;
+        const urlTV = `${urlTVBase}?first_air_date.gte=2024-08-20&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`;
   
         try {
           const [movieResponse, tvResponse] = await Promise.all([
@@ -160,7 +161,7 @@ const Home = () => {
             title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
             rating: item.vote_average,
             imgUrl: `https://media.themoviedb.org/t/p/w220_and_h330_face/${item.poster_path}`,
-            releaseDate: item.release_date,
+            releaseDate: item.hasOwnProperty("release_date") ? item.release_date : item.first_air_date,
             id: item.id,
             tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
           }));
@@ -207,27 +208,54 @@ const Home = () => {
         }
       }
     }
-    
-  }, []);
-  useEffect(() => {
-    // console.log(trendingData)
-  }, []);
+    async function loadAllData(){
+      try {
+        await Promise.all([startupTrailersData(), startupTendingData()]);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+        if (onLoadComplete) onLoadComplete();
+      }
+    };
+  }, [onLoadComplete]);
+
   return (
     <>
       <main>
         <section>
           <div className={styles.welcome_wrapper}>
-            <h1>Welcome!</h1>
-            <h2>
-              Millions of movies,TV shows and people to discover. Explore now.
-            </h2>
-            <div className={styles.carousel_container}>
-              {trailersData.length > 0 && <Carousel items={trailersData} />}
+            <div className={styles.welcome_text}>
+              <h1>Welcome!</h1>
+              <h2>
+                Millions of movies,TV shows and people to discover. Explore now.
+              </h2>
+            </div>
+            <div className={styles.trailers_container}>
+            {loading ? (
+                <div className={styles.spinner_wrapper}>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              ) : (
+                trailersData.length > 0 && <Carousel items={trailersData} />
+              )}
             </div>
           </div>
         </section>
         <section>
-        {trendingData.length > 0 && <PosterGallery title="Trending" tabsData={trendingData} />}
+          <div className={styles.trending_container}>
+          {loading ? (
+              <div className={styles.spinner_wrapper}>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            ) : (
+              trendingData.length > 0 && <PosterGallery title="Trending" tabsData={trendingData} />
+            )}
+          </div>
         </section>
         <section></section>
       </main>

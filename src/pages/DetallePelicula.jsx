@@ -15,9 +15,6 @@ function DetallePelicula() {
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNDEzNjFjN2U4MzQzYmU5NTdiNGE1MGU1OWIxNzNiZiIsIm5iZiI6MTcyMzE3MzgxOC4wMzYxMDUsInN1YiI6IjY2YjQzNTFmYjJkMWM1NWM3OTZmMjNmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.L24aOuGVERuuekN14gSCAXJMte02hky1GALzw9O1w4o'
         }
     };
-    const handleImageLoad = () => {
-        setImageLoaded(true);
-    };
     useEffect(() => {
         
         const consultarDetalleItem = async () => {
@@ -37,6 +34,12 @@ function DetallePelicula() {
         consultarDetalleItem();
         
     }, []);
+    function handleImageLoad(){
+        setImageLoaded(true);
+    };
+    function redondearVotos(value){
+        return value.toFixed(1);
+    };
     console.log(detalleItem)
 
     return (
@@ -50,7 +53,7 @@ function DetallePelicula() {
                     borderRadius:"200px", height:'100px', 
                     position: 'absolute', right:"30px", top:'30px', backgroundColor:"#6e779c", 
                     color:"white", display:'flex', alignItems: 'center', textAlign:"center", fontSize:'40px'}}>
-                    {detalleItem.vote_average.toFixed(1)}</Card.Header>
+                    {redondearVotos(detalleItem.vote_average)}</Card.Header>
                 {imageLoaded && (
                 <ListGroup variant="bottom" className="list-group-flush" style={{ position: 'absolute', bottom: "-188px", width: '100%'}}>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', fontSize: '30px' }}>

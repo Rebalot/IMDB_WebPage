@@ -23,8 +23,6 @@
 .trailerName_container{
     position: absolute;
     z-index: 1;
-    /* bottom: 1rem;
-    margin-left: 3rem; */
     margin-left: 5.5rem;
     top: 1rem;
     border-radius: 3px;
@@ -39,6 +37,7 @@
     color: rgb(0, 0, 0);
     margin-bottom: 0 !important;
     font-weight: 600 !important;
+    font-size: 1.1rem !important;
 }
 .playBtn{
     top: 50%;
@@ -55,4 +54,9 @@
 
 .playBtn span:hover {
     transform: scale(1.3);
+}
+@media (max-width: 600px) {
+    .trailerName_container{
+        margin-left: 4rem;
+    }
 }

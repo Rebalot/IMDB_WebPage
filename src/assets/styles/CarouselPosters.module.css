@@ -1,0 +1,40 @@
+.slider-container{
+    padding-top: 20px !important;
+}
+.poster_container{
+    max-width: 150px;
+    margin-left: 30px;
+
+}
+.poster_container > a:hover{
+    color: var(--bgcolor-secondary) !important;
+}
+.poster_img{
+    max-width: 150px;
+    max-height: 225px;
+    border-radius: 5px;
+}
+.poster_info{
+    margin-top: 25px;
+    position: relative;
+}
+.poster_raiting_container{
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    left: 5px;
+    top: -45px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+}
+
+.poster_info h4{
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0 !important;    
+}
+.poster_info p{
+    font-size: 0.9rem !important;
+    color: var(--text-secondary) !important;
+}

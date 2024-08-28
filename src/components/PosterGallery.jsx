@@ -58,7 +58,7 @@ function PosterGalleryComponent({ title, tabsData }) {
       <div className={classNames(styles.gallery_header)}>
         <h3>{title}</h3>
 
-        <MDBTabs pills className="mb-3">
+        <MDBTabs pills className={`mb-3 ${styles.tabPills}`}>
           {tabsData.map((tabData, index) => (
             <MDBTabsItem key={index}>
               <Chip

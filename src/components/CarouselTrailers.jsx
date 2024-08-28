@@ -2,7 +2,7 @@ import { Carousel } from "flowbite-react";
 import Modal from "./Modal";
 import { useState } from "react";
 import classNames from "classnames";
-import styles from "../assets/styles/Carousel.module.css";
+import styles from "../assets/styles/CarouselTrailers.module.css";
 import { NavLink } from "react-router-dom";
 
 export function CarouselComponent({ items }) {
