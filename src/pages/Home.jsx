@@ -92,12 +92,7 @@ const Home = ({ onLoadComplete }) => {
   
           const movieData = await movieResponse.json();
           const tvData = await tvResponse.json();
-          const allData = {
-            movieData,
-            tvData,
-          };
-          // console.log("Lista próximas allData: ", allData);
-          return allData;
+          return {movieData, tvData};
         } catch (error) {
           console.error("Error al obtener data", error);
         }
@@ -153,7 +148,7 @@ const Home = ({ onLoadComplete }) => {
       }
     }
 
-    async function startupTendingData(){
+    async function startupTrendingData(){
       const allData = await trendingData();
       if (allData) {
         const mapTrendingData = (data) => {
@@ -208,57 +203,130 @@ const Home = ({ onLoadComplete }) => {
         }
       }
     }
-    async function startupPopularPeopleData(){
-      const allData = await popularPeopleData();
+    async function startupByPlatformData(){
+      const allData = await popularByPlatformData();
+
       if (allData) {
-        // const mapTrendingData = (data) => {
-        //   return data.map(item => ({
-        //     title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
-        //     rating: item.vote_average,
-        //     imgUrl: `https://media.themoviedb.org/t/p/w220_and_h330_face/${item.poster_path}`,
-        //     releaseDate: item.hasOwnProperty("release_date") ? item.release_date : item.first_air_date,
-        //     id: item.id,
-        //     tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
-        //   }));
-        // }
+        const listaConTrailerMovies = await obtenerListaConTrailer(
+          "movie",
+          allData.movieData.results
+        );
+        const listaConTrailerTv = await obtenerListaConTrailer(
+          "tv",
+          allData.tvData.results
+        );
 
-        // const listaTrendingMovies = mapTrendingData(allData.movieData.results);
-        // const listaTrendingTv = mapTrendingData(allData.tvData.results);
-        
-        // // console.log('listaTrendingMovies: ', listaTrendingMovies)
-        // // console.log('listaTrendingTv: ', listaTrendingTv)
-        // const dataPosterGallery = ()=>{
-        //   return [
-        //   {
-        //     tabTitle: "Movies",
-        //     carouselItems: [...listaTrendingMovies]
-        //   },
-        //   {
-        //     tabTitle: "TV shows",
-        //     carouselItems: [...listaTrendingTv]
-        //   }
-        //   ];
-        // }
-        // setTrendingData(dataPosterGallery);
+        if (listaConTrailerMovies && listaConTrailerTv) {
+          let trailersData = {};
+          const dataParaCarouselMovies = transformarDataCarousel(
+            listaConTrailerMovies
+          );
+          const dataParaCarouselTv = transformarDataCarousel(listaConTrailerTv);
+
+          trailersData.movie_trailer = dataParaCarouselMovies;
+          trailersData.tvshow_trailer = dataParaCarouselTv;
+
+          if (
+            trailersData.hasOwnProperty("movie_trailer") &&
+            trailersData.hasOwnProperty("tvshow_trailer")
+          ) {
+            // console.log("trailers data: ", trailersData);
+            const moviesTrailersPopulares = trailersData.movie_trailer.slice(
+              0,
+              4
+            );
+            const tvTrailersPopulares = trailersData.tvshow_trailer.slice(0, 4);
+
+            const combinedTrailers = [];
+            let i = 0;
+            while (
+              i < moviesTrailersPopulares.length ||
+              i < tvTrailersPopulares.length
+            ) {
+              if (i < moviesTrailersPopulares.length) {
+                combinedTrailers.push(moviesTrailersPopulares[i]);
+              }
+              if (i < tvTrailersPopulares.length) {
+                combinedTrailers.push(tvTrailersPopulares[i]);
+              }
+              i++;
+            }
+            setTrailersData(combinedTrailers);
+          }
+        }
       }
-      async function popularPeopleData(){
-        const urlPopularPeople = 'https://api.themoviedb.org/3/person/popular';
-        
-        try {
-          const peopleResponse = await fetch(urlPopularPeople, options);
+      async function popularByPlatformData(watchProviderID) {
+        //watch_region (MX), with_watch_providers (337 Disney +, 119 Amazon Prime Video, 167 ClaroVideo, 2 Apple Tv, 8 Netflix, 283 Crunchyroll, 1899 Max )
+        const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${watchProviderID}`;
+        const urlTV = `${urlTVBase}?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${watchProviderID}`;
   
-          const peopleData = await peopleResponse.json();
+        try {
+          const [movieResponse, tvResponse] = await Promise.all([
+            fetch(urlMovie, options),
+            fetch(urlTV, options),
+          ]);
+  
+          const movieData = await movieResponse.json();
+          const tvData = await tvResponse.json();
 
-          console.log("Lista popular people: ", peopleData);
-          return peopleData;
+          return {movieData, tvData};
         } catch (error) {
           console.error("Error al obtener data", error);
         }
       }
+  
+      async function obtenerListaConTrailer(tipo, arrayAIterar) {
+        if (arrayAIterar.length === 0) return;
+        // Iterar sobre cada película para obtener todos los videos disponibles y posteriormente obtener unicamente el que sea el trailer oficial
+        const listaVideosPromises = arrayAIterar.map(async (item) => {
+          //item es cada una de las peliculas o tvshows próximos, con el fin de obtener el id y posteriormente buscar sus videos disponibles
+          const videosUrl = `https://api.themoviedb.org/3/${tipo}/${item.id}/videos`;
+  
+          const response = await fetch(videosUrl, options);
+          if (!response.ok) {
+            throw new Error(`Error al obtener videos de ${item.id}`);
+          }
+          const videosData = await response.json();
+  
+          // Buscar el trailer oficial dentro de la propiedad results, donde se encuentran los videos disponibles de la pelicula/tvshow.
+          const officialTrailer = videosData.results.find(
+            (video) =>
+              video.type === "Trailer" && video.name === "Official Trailer"
+          );
+  
+          //Mantiene las propiedades originales y agrega la propiedad official_trailer, en caso de no contar con uno, el value será null.
+          return {
+            ...item,
+            official_trailer: officialTrailer ? officialTrailer : null,
+          };
+        });
+  
+        const updatedElement = await Promise.all(listaVideosPromises);
+  
+        return updatedElement;
+      }
+      function transformarDataCarousel(arrayAFiltrar) {
+        //Para descartar las películas o shows que no cuentan con official trailer
+        const listaConTrailerDisponible = arrayAFiltrar.filter(
+          (item) => item.official_trailer !== null
+        );
+        // console.log('listaConTrailerDisponible', listaConTrailerDisponible)
+        const dataEndpoints = listaConTrailerDisponible.map((item) => {
+
+          return {
+            title: item.hasOwnProperty("original_title") ? item.original_title : item.name,
+            image: `https://media.themoviedb.org/t/p/w1920_and_h427_multi_faces/${item.backdrop_path}`,
+            trailerUrl: `https://www.youtube.com/watch?v=${item.official_trailer.key}`,
+            id: item.id,
+            tipo: item.hasOwnProperty("original_title") ? 'movie' : 'tv'
+          };
+        });
+        return dataEndpoints;
+      }
     }
     async function loadAllData(){
       try {
-        await Promise.all([startupTrailersData(), startupTendingData(), startupPopularPeopleData()]);
+        await Promise.all([startupTrailersData(), startupTrendingData(), startupByPlatformData()]);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -267,7 +335,17 @@ const Home = ({ onLoadComplete }) => {
       }
     };
   }, [onLoadComplete]);
-
+{/* <div className={styles.byPlatform_container}>
+          {loading ? (
+              <div className={styles.spinner_wrapper}>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            ) : (
+              trendingData.length > 0 && <PosterGallery title="Popular" subtitle="byPlatform" tabsData={trendingData} />
+            )}
+          </div> */}
   return (
     <>
       <main>
@@ -306,17 +384,7 @@ const Home = ({ onLoadComplete }) => {
           </div>
         </section>
         <section>
-        <div className={styles.byPlatform_container}>
-          {loading ? (
-              <div className={styles.spinner_wrapper}>
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </div>
-            ) : (
-              trendingData.length > 0 && <PosterGallery title="Popular" subtitle="byPlatform" tabsData={trendingData} />
-            )}
-          </div>
+        
         </section>
       </main>
     </>
