@@ -16,7 +16,6 @@ import CarouselPosters from "./CarouselPosters";
 function PosterGalleryComponent({ title, subtitle, tabsData }) {
   
   const [basicActive, setBasicActive] = useState(tabsData[0].tabTitle);
-
   //For tabs content
   const handleBasicClick = (value) => {
     if (value === basicActive) {
@@ -43,7 +42,7 @@ function PosterGalleryComponent({ title, subtitle, tabsData }) {
         <span className="relative z-10">{text}</span>
         {selected && (
           <motion.span
-            layoutId="pill-tab"
+            layoutId={`pill-tab-${subtitle ? `${title}_${subtitle}` : `${title}`}`}
             transition={{ type: "spring", duration: 0.5 }}
             className="absolute inset-0 z-0 bg-gradient-to-r from-[#f6c700] via-[#f6a700] to-[#f68200] rounded-md"
           ></motion.span>
