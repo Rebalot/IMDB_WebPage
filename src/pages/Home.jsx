@@ -22,7 +22,7 @@ const Home = ({ onLoadComplete }) => {
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNDEzNjFjN2U4MzQzYmU5NTdiNGE1MGU1OWIxNzNiZiIsIm5iZiI6MTcyMzE3MzgxOC4wMzYxMDUsInN1YiI6IjY2YjQzNTFmYjJkMWM1NWM3OTZmMjNmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.L24aOuGVERuuekN14gSCAXJMte02hky1GALzw9O1w4o",
     },
   };
-  
+
   ///////////////////////////
   useEffect(() => {
     loadAllData();
@@ -218,7 +218,7 @@ const Home = ({ onLoadComplete }) => {
         "Disney Plus": 337,
         "Amazon Prime Video": 119,
         "Claro Video": 167,
-        "Apple TV": 2,
+        "Apple TV": 350,
         'Netflix': 8,
         'Crunchyroll': 283,
         'Max': 1899,
