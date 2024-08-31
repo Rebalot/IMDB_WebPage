@@ -79,7 +79,7 @@ export function CarouselComponent({ items }) {
 
               <img src={item.image} alt={`${item.title}`} />
               <div className={classNames(styles.trailerName_container)}>
-                <NavLink to={`/${item.tipo === 'movie' ? `movie/${item.id}` : `tv/${item.id}`}`}><h4 className={classNames(styles.trailerName)}>{item.title}</h4></NavLink>
+                <NavLink to={`/${item.tipo === 'movie' ? `movie/detail/${item.id}` : `tv/detail/${item.id}`}`}><h4 className={classNames(styles.trailerName)}>{item.title}</h4></NavLink>
               </div>
 
             </div>

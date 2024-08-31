@@ -22,7 +22,7 @@ h4{
     font-size: calc(1.275rem + .3vw) !important;
 }
 
-main{
+.main_home{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,12 +31,12 @@ main{
 .welcome_text{
     margin-left: 10px;
 }
-section{
+.main_home section{
     max-width: 1300px;
     flex: 1;
     width: 100%;
 }
-section > div{
+.main_home section > div{
     padding: 30px 40px;
 }
 

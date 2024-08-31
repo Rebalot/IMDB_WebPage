@@ -11,7 +11,7 @@ import styles from '../assets/styles/Navbar.module.css';
 import imdbLogo from '../assets/images/logos/IMDB.png';
 import searchBtn from '../assets/images/buttons/search.svg';
 import { NavLink } from 'react-router-dom';
-import Popular from '../pages/Movie_Popular';
+
 
 function NavbarComponent() {
 
@@ -59,13 +59,13 @@ function NavbarComponent() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item as={NavLink} to="/movie/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/movie/now-playing" className={classNames(styles.navlink_a)}>
+                    <NavDropdown.Item as={NavLink} to="/movie/now_playing" className={classNames(styles.navlink_a)}>
                       Now Playing
                     </NavDropdown.Item>
                     <NavDropdown.Item as={NavLink} to="/movie/upcoming" className={classNames(styles.navlink_a)}>
                       Upcoming
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/movie/top-rated" className={classNames(styles.navlink_a)}>
+                    <NavDropdown.Item as={NavLink} to="/movie/top_rated" className={classNames(styles.navlink_a)}>
                       Top Rated
                     </NavDropdown.Item>
                   </NavDropdown>
@@ -74,13 +74,13 @@ function NavbarComponent() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item as={NavLink} to="/tv/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/airing-today" className={classNames(styles.navlink_a)}>
+                    <NavDropdown.Item as={NavLink} to="/tv/airing_today" className={classNames(styles.navlink_a)}>
                       Airing Today
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/on-tv" className={classNames(styles.navlink_a)}>
+                    <NavDropdown.Item as={NavLink} to="/tv/on_the_air" className={classNames(styles.navlink_a)}>
                       On TV
                     </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/tv/top-rated" className={classNames(styles.navlink_a)}>
+                    <NavDropdown.Item as={NavLink} to="/tv/top_rated" className={classNames(styles.navlink_a)}>
                       Top Rated
                     </NavDropdown.Item>
                   </NavDropdown>
@@ -89,7 +89,7 @@ function NavbarComponent() {
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                     className={classNames(styles.peopleTab)}
                   >
-                    <NavDropdown.Item as={NavLink} to="/people/popular-people" className={classNames(styles.navlink_a)}>Popular People</NavDropdown.Item>
+                    <NavDropdown.Item as={NavLink} to="/person/popular" className={classNames(styles.navlink_a)}>Popular People</NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
               </Offcanvas.Body>

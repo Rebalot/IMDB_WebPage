@@ -84,8 +84,8 @@ function PostersComponent({ postersData }) {
               <NavLink
             to={`/${
               posterData.tipo === "movie"
-                ? `movie/${posterData.id}`
-                : `tv/${posterData.id}`
+                ? `movie/detail/${posterData.id}`
+                : `tv/detail/${posterData.id}`
             }`}
             
           >

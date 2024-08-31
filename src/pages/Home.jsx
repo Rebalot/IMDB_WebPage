@@ -4,7 +4,8 @@ import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/Home.module.css";
 import Carousel from "../components/CarouselTrailers";
 import PosterGallery from "../components/PosterGallery";
-import { Spinner } from "react-bootstrap";
+import Spinner from "../components/Spinner";
+
 
 const Home = ({ onLoadComplete }) => {
   const urlMovieBase = "https://api.themoviedb.org/3/discover/movie";
@@ -143,9 +144,9 @@ const Home = ({ onLoadComplete }) => {
         // console.log('listaConTrailerDisponible', listaConTrailerDisponible)
         const dataTransformada = listaConTrailerDisponible.map((item) => {
           return {
-            title: item.hasOwnProperty("original_title")
-              ? item.original_title
-              : item.name,
+            title: item.hasOwnProperty("title")
+                ? item.title
+                : item.name,
             image: `https://media.themoviedb.org/t/p/w1920_and_h427_multi_faces/${item.backdrop_path}`,
             trailerUrl: `https://www.youtube.com/watch?v=${item.official_trailer.key}`,
             id: item.id,
@@ -215,13 +216,13 @@ const Home = ({ onLoadComplete }) => {
     }
     async function startupByPlatformData() {
       const watchProviderIDs = {
-        "Disney Plus": 337,
-        "Amazon Prime Video": 119,
-        "Claro Video": 167,
-        "Apple TV": 350,
         'Netflix': 8,
-        'Crunchyroll': 283,
+        "Disney Plus": 337,
+        "Prime Video": 119,
         'Max': 1899,
+        "Apple TV": 350,
+        "Claro Video": 167,
+        'Crunchyroll': 283,
       };
 
       try {
@@ -266,11 +267,11 @@ const Home = ({ onLoadComplete }) => {
       function transformarDataCarousel(arrayAFiltrar) {
 
         const dataTransformada = arrayAFiltrar.map((plataforma) => {
-
+          // console.log('plataforma: ',plataforma)
           const mapTrendingData = (data) => {
             return data.map((item) => ({
-              title: item.hasOwnProperty("original_title")
-                ? item.original_title
+              title: item.hasOwnProperty("title")
+                ? item.title
                 : item.name,
               rating: item.vote_average,
               imgUrl: `https://media.themoviedb.org/t/p/w220_and_h330_face/${item.poster_path}`,
@@ -345,7 +346,7 @@ const Home = ({ onLoadComplete }) => {
 
   return (
     <>
-      <main>
+      <main className={styles.main_home}>
         <section>
           <div className={styles.welcome_wrapper}>
             <div className={styles.welcome_text}>
@@ -356,11 +357,7 @@ const Home = ({ onLoadComplete }) => {
             </div>
             <div className={styles.trailers_container}>
               {loading ? (
-                <div className={styles.spinner_wrapper}>
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                </div>
+                <Spinner />
               ) : (
                 trailersData.length > 0 && <Carousel items={trailersData} />
               )}
@@ -370,11 +367,7 @@ const Home = ({ onLoadComplete }) => {
         <section>
           <div className={styles.trending_container}>
             {loading ? (
-              <div className={styles.spinner_wrapper}>
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </div>
+              <Spinner />
             ) : (
               trendingData.length > 0 && (
                 <PosterGallery title="Trending" tabsData={trendingData} />
@@ -385,11 +378,7 @@ const Home = ({ onLoadComplete }) => {
         <section>
           <div className={styles.byPlatform_container}>
             {loading ? (
-              <div className={styles.spinner_wrapper}>
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </div>
+              <Spinner />
             ) : (
               byPlatformData.length > 0 && (
                 <PosterGallery

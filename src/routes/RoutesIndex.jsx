@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from '../pages/Home';
-import MoviePopular from '../pages/Movie_Popular';
+import ContentMovies from '../pages/ContentMovies';
 import DetallePelicula from '../pages/DetallePelicula';
 import NowPlaying from '../pages/Movie_NowPlaying';
 import TopRated from '../pages/Movie_TopRated';
@@ -22,11 +22,12 @@ const RoutesIndex = ({ onLoadComplete, onLoading }) => {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/movie/popular' element={<MoviePopular />} />
-            <Route path='/movie/now-playing' element={<NowPlaying />} />
-            <Route path='/movie/top-rated' element={<TopRated />} />
+            <Route path='/:typeDetail/detail/:id' element={<DetallePelicula />} />
+            <Route path='/movie/:section' element={<ContentMovies />} />
+            <Route path='/movie/now_playing' element={<NowPlaying />} />
+            <Route path='/movie/top_rated' element={<TopRated />} />
             <Route path='/movie/upcoming' element={<Upcoming />} />
-            <Route path='/:typeDetail/:id' element={<DetallePelicula />} />
+            
         </Routes>
     )
 };
