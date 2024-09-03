@@ -3,6 +3,7 @@ import SearchBar from "../components/SearchBar";
 import { NavLink, useParams } from "react-router-dom";
 import styles from "../assets/styles/ContentMovies.module.css";
 import ItemCardComponent from "../components/ItemCard";
+import Filter from "../components/FilterMovies";
 
 const ContentMovies = () => {
   const { section } = useParams();
@@ -33,17 +34,16 @@ const ContentMovies = () => {
   };
   useEffect(() => {
     console.log('Section changed');
-    setMoviesList([]); // Reinicia la lista de películas
-    setPage(1); // Reinicia la página
+    setMoviesList([]);
+    setPage(1);
   }, [section]);
 
-  // Efecto para cuando cambia la página o la sección
   useEffect(() => {
     consultarMovieSection(page);
   }, [page, section]);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1); // Incrementa la página
+    setPage((prevPage) => prevPage + 1);
   };
 
 
@@ -54,9 +54,7 @@ const ContentMovies = () => {
         <h1>Popular Movies</h1>
         <div className={styles.movies_sections}>
           <aside>
-            <div className={styles.filter_panel}>
-              
-            </div>
+            <Filter></Filter>
           </aside>
           <section>
           <div className={styles.movies_grid}>

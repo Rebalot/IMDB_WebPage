@@ -1,0 +1,10 @@
+.filter_panel{
+    background-color: aliceblue;
+    height: 100%;
+    width: 100%;
+    color: black;
+}
+.filter_panel h4{
+    font-weight: 600 !important;
+
+}
