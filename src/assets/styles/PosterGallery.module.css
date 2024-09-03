@@ -4,6 +4,7 @@
     gap: 30px;
     align-items: center;
     margin-bottom: 20px;
+    justify-content: space-between;
 }
 .title_container{
     display: flex;
@@ -21,7 +22,73 @@
     color: var(--text-secondary);
 }
 .tabPills{
-    gap: 5px;
     margin-left: 0 !important;
     margin-bottom: 0 !important;
+    /* gap: 7px !important; */
+    /* flex-wrap: nowrap !important; */
 }
+
+:global(.swiper){
+    height: 100%;
+max-height: 100vw;
+min-height: 0;
+min-width: 0;
+max-width: 100vw;
+width: 100%;
+overflow: hidden;
+display: grid !important;
+padding: 0 10px;
+position: relative;
+}
+
+:global(.swiper-wrapper){
+    max-height: 100%;
+  height: 100%t;
+  display: flex;
+justify-content: flex-end;
+}
+:global(.swiper-slide) {
+    width: auto !important;
+    flex-shrink: 0;
+    display: block;
+    height: 100%;
+    max-height: 100%;
+} 
+:global(.swiper-slide button) {
+    white-space: nowrap;
+}
+.left_grad{
+    width: 10px;
+    height: 100%;
+    z-index: 20;
+    left: 0;
+    position: absolute;
+    background: linear-gradient(to right, #161b30, transparent);
+}
+.right_grad{
+    width: 10px;
+    height: 100%;
+    z-index: 20;
+    right: 0;
+    position: absolute;
+    background: linear-gradient(to left, #161b30, transparent);
+}
+@media (max-width: 950px) {
+    :global(.swiper){
+    width: 450px;
+    }
+
+}
+@media (max-width: 780px) {
+    :global(.swiper){
+    width: 300px;
+    }
+
+}
+@media (max-width: 650px) {
+    :global(.swiper){
+    width: 180px;
+    }
+
+}
+

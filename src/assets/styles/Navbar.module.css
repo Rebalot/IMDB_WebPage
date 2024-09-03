@@ -3,6 +3,9 @@
 }
 .nav{
     background-color: var(--nav-bgcolor);
+    position: fixed;
+    width: 100vw;
+    z-index: 49;
 }
 .brand{
     color: whitesmoke;
@@ -11,7 +14,7 @@
     width: 60px;
 }
 .container{
-    max-width: 1280px;
+    max-width: 1280px !important;
     margin: auto;
 }
 .searchBar{
@@ -33,6 +36,10 @@
     color: var(--bs-dropdown-link-hover-color) !important;
     background-color: var(--bs-dropdown-link-hover-bg) !important;
 }
+:global(.navbar-toggler-icon){
+    background-image: var(--bs-navbar-toggler-icon-bg) !important;
+}
+
 @media (max-width: 1400px) {
     .peopleTab > div{
         left: -60px !important;

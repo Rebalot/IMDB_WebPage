@@ -1,10 +1,9 @@
-import { BrowserRouter } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
-import RoutesIndex from './routes/RoutesIndex'
+import { BrowserRouter } from 'react-router-dom';
+import RoutesIndex from './routes/RoutesIndex';
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
 import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
   const [isRoutesLoaded, setIsRoutesLoaded] = useState(false);

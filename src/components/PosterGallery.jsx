@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   MDBTabs,
@@ -8,14 +8,20 @@ import {
   MDBTabsPane,
 } from "mdb-react-ui-kit";
 
-import styles from "../assets/styles/PosterGallery.module.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
+import styles from "../assets/styles/PosterGallery.module.css";
 import { motion } from "framer-motion";
 import CarouselPosters from "./CarouselPosters";
+import classNames from "classnames";
 
 function PosterGalleryComponent({ title, subtitle, tabsData }) {
-  
+  const swiperRef = useRef(null);
   const [basicActive, setBasicActive] = useState(tabsData[0].tabTitle);
+
   //For tabs content
   const handleBasicClick = (value) => {
     if (value === basicActive) {
@@ -42,13 +48,21 @@ function PosterGalleryComponent({ title, subtitle, tabsData }) {
         <span className="relative z-10">{text}</span>
         {selected && (
           <motion.span
-            layoutId={`pill-tab-${subtitle ? `${title}_${subtitle}` : `${title}`}`}
+            layoutId={`pill-tab-${
+              subtitle ? `${title}_${subtitle}` : `${title}`
+            }`}
             transition={{ type: "spring", duration: 0.5 }}
             className="absolute inset-0 z-0 bg-gradient-to-r from-[#f6c700] via-[#f6a700] to-[#f68200] rounded-md"
           ></motion.span>
         )}
       </button>
     );
+  };
+
+  const handleTabClick = (swiper, index) => {
+    if (swiper) {
+      swiper.slideTo(index, 500);
+    }
   };
 
   return (
@@ -64,23 +78,37 @@ function PosterGalleryComponent({ title, subtitle, tabsData }) {
         )}
 
         <MDBTabs pills className={`mb-3 ${styles.tabPills}`}>
-          {tabsData.map((tabData, index) => (
-            <MDBTabsItem key={index}>
-              <Chip
-                as={MDBTabsLink}
-                text={tabData.tabTitle}
-                selected={basicActive === tabData.tabTitle}
-                active={basicActive === tabData.tabTitle}
-              />
-            </MDBTabsItem>
-          ))}
+          <Swiper
+            className={styles.swiper_container}
+            slidesPerView={"auto"}
+            spaceBetween={5}
+            grabCursor={true}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+          >
+            <span className={styles.left_grad}></span>
+            {tabsData.map((tabData, index) => (
+              <SwiperSlide key={index}
+              onClick={() => handleTabClick(swiperRef.current, index)}>
+                <Chip
+                  as={MDBTabsLink}
+                  text={tabData.tabTitle}
+                  selected={basicActive === tabData.tabTitle}
+                  active={basicActive === tabData.tabTitle}
+                />
+              </SwiperSlide>
+            ))}
+            <span className={styles.right_grad}></span>
+          </Swiper>
         </MDBTabs>
       </div>
       <MDBTabsContent>
-        
         {tabsData.map((tabData, index) => (
           <MDBTabsPane open={basicActive === tabData.tabTitle} key={index}>
-            <CarouselPosters postersData={tabData.carouselItems}></CarouselPosters>
+            <CarouselPosters
+              postersData={tabData.carouselItems}
+            ></CarouselPosters>
           </MDBTabsPane>
         ))}
       </MDBTabsContent>

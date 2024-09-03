@@ -12,7 +12,7 @@ function PostersComponent({ postersData }) {
   // console.log(postersData);
   //Setting for slick-carousel
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 7,
@@ -24,8 +24,6 @@ function PostersComponent({ postersData }) {
         settings: {
           slidesToShow: 6,
           slidesToScroll: 6,
-          infinite: true,
-          dots: true,
         },
       },
       {
