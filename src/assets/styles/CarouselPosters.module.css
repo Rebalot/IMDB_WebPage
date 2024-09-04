@@ -34,7 +34,7 @@
     font-weight: 600 !important;
     margin-bottom: 0 !important;    
 }
-.poster_info p{
+.poster_info span{
     font-size: 0.9rem !important;
     color: var(--text-secondary) !important;
 }

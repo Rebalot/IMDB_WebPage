@@ -10,25 +10,28 @@
   *::after {
     box-sizing: border-box;
   }
-  
-  .card {
+  .card{
     color: var(--font-primary);
-    background-size:contain;
-    background-repeat: no-repeat;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    transition: transform 500ms ease;
-    width: 100%;
-    height: 100%;
     position: relative;
   }
-  
-  .card:hover,
-  .card:focus-within {
-    transform: scale(1.05);
+  .card_poster {
+    transition: transform 500ms ease;
+    width: 100%;
+    max-width: 200px;
+    position: relative;
+    aspect-ratio: 2 / 3;
+  }
+  .card_img{
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 2 / 3;
+    z-index: 0;
+    position: absolute;
+    border-radius: 0.5rem;
   }
   
   .card_content {
+    border-radius: 0.5rem;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -39,7 +42,8 @@
     opacity: 0;
     transition: 0.6s;
     padding: 1rem 0.8rem 1.1rem 1.1rem;
-    gap: 0.5rem;
+    gap: 1rem;
+    z-index: 3;
   }
   .card_content::-webkit-scrollbar{
     width: 3px;
@@ -49,27 +53,11 @@
     transform: translateY(15px);
     transition: transform 0.6s;
   }
-  .card_content:hover{
-    opacity: 1;
+  .card_content:hover {
+    opacity: 1; 
   }
   .card_content:hover > * {
     transform: translateY(0);
-  }
-  .card_title {
-    font-size: 1.1rem !important;
-    color: var(--color-title);
-    font-weight: 600 !important;
-    position: relative;
-  }
-  .card_body {
-    color: rgb(255, 255, 255/0.85);
-    font-size: 0.8rem;
-    line-height: normal;
-    overflow: auto;
-    scrollbar-width:thin;
-    scrollbar-color: #ffffff transparent;
-    scrollbar-gutter: stable;
-    padding-right: 0.3rem;
   }
   .btn_a {
     cursor: pointer;
@@ -84,7 +72,6 @@
     font-size: 0.7rem;
     gap: 0.2rem;
     margin-left: auto;
-    margin-bottom: 0.3rem;
   }
   .btn_a span{
     margin-top: 0.1rem;
@@ -98,12 +85,53 @@
     color: var(--mdb-link-hover-color);
     text-decoration: none;
   }
-  @media (max-width: 520px) {
-    .card_title {
-      font-size: 0.9rem !important;
-    }
-    .card_body {
-      font-size: 0.7rem;
-    }
+  .card_overview {
+    color: rgb(255, 255, 255/0.85);
+    font-size: 0.8rem;
+    line-height: normal;
+    overflow: auto;
+    scrollbar-width:thin;
+    scrollbar-color: #ffffff transparent;
+    scrollbar-gutter: stable;
+    padding-right: 0.3rem;
+  }
+  .card_info{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+  .card_rating{
+    min-width: 20px;
+    max-width: 38px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  .card_title {
+    font-size: 0.95rem !important;
+    color: var(--color-title);
+    font-weight: 600 !important;
+    text-align: end;
+    margin-bottom: 0 !important;
+  }
+  .card_title_date{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .card_title_date span{
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+@media (max-width: 500px){
+  .card_title{
+    font-size: 0.9rem !important;
+  }
+  .card_rating{
+    max-width: 35px;
+  };
 }
-  

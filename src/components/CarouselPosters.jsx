@@ -67,11 +67,11 @@ function PostersComponent({ postersData }) {
     return Math.round(value * 10);
   }
   function convertDate(dateString) {
-    const date = new Date(dateString);
-
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-
-    return date.toLocaleDateString('en-US', options);
+    const [year, month, day] = dateString.split('-');
+  
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  
+    return `${monthNames[Number(month) - 1]} ${Number(day)}, ${year}`;
   }
   return (
     <div className="slider-container">
@@ -94,7 +94,6 @@ function PostersComponent({ postersData }) {
                 className={styles.poster_raiting_container}
               >
                 <CircularProgressbar
-                  className={styles.poster_raiting}
                   value={rating(posterData.rating)}
                   minValue={0}
                   maxValue={100}
@@ -127,8 +126,8 @@ function PostersComponent({ postersData }) {
                   })}
                 ></CircularProgressbar>
               </div>
-              <h4 className={styles.poster_title}>{posterData.title}</h4>
-              <p className={styles.poster_releaseDate}>{convertDate(posterData.releaseDate)}</p>
+              <h4>{posterData.title}</h4>
+              <span>{convertDate(posterData.releaseDate)}</span>
               </div>
               </NavLink>
             </div>
