@@ -20,7 +20,7 @@ const RoutesIndex = ({ onLoadComplete, onLoading }) => {
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/:typeDetail/detail/:id' element={<DetallePelicula />} />
-            <Route path='/movie/:section' element={<ContentMovies />} />
+            <Route path='/movie' element={<ContentMovies />} />
         </Routes>
     )
 };

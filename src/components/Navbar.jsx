@@ -54,21 +54,7 @@ function NavbarComponent() {
                   </Button>
                 </Form>
                 <Nav className="ms-5">
-                <NavDropdown
-                    title="Movies"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                    <NavDropdown.Item as={NavLink} to="/movie/popular" className={classNames(styles.navlink_a)}>Popular</NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/movie/now_playing" className={classNames(styles.navlink_a)}>
-                      Now Playing
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/movie/upcoming" className={classNames(styles.navlink_a)}>
-                      Upcoming
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={NavLink} to="/movie/top_rated" className={classNames(styles.navlink_a)}>
-                      Top Rated
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                <Nav.Link href="/movie">Movies</Nav.Link>
                   <NavDropdown
                     title="TV Shows"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

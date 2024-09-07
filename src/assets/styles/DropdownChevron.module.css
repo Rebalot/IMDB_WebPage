@@ -1,0 +1,20 @@
+:root {
+    --bg-content: rgba(0,0,0,0.9);
+    --font-primary: hsl(0, 0%, 100%);
+    --bg-color: rgb(245, 200, 0);
+    --bg-hover-dropdown: rgba(245, 200, 0, 0.9);
+}
+
+:global(.dropdown){
+
+}
+.dropdown_btn{
+    background-color: var(--bg-color);
+    color: var(--bg-content);
+    padding: 0.28rem;
+    border-radius: 5px;
+    /* margin-bottom: 0.6rem; */
+}
+.dropdown_btn:hover{
+    background-color: var(--bg-hover-dropdown);
+}
