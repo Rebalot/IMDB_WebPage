@@ -5,13 +5,13 @@ import styles from "../assets/styles/ContentMovies.module.css";
 import ItemCardComponent from "../components/ItemCard";
 import Filter from "../components/FilterMovies";
 import Dropdown from "../components/DropdownChevron";
-
-const ContentMovies = () => {
+import Spinner from "../components/Spinner";
+const ContentMovies = ({ onLoadComplete, onLoading }) => {
   const [moviesList, setMoviesList] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [section, setSection] = useState("popular");
-  const [sectionName, setSectionName] = useState("All")
+  const [sectionName, setSectionName] = useState("All");
   const options = {
     method: "GET",
     headers: {
@@ -21,10 +21,9 @@ const ContentMovies = () => {
     },
   };
   const consultarMovieSection = async (pageNum) => {
-    setLoading(true); // Inicia la carga
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${section}?language=en-US&page=${pageNum}`,
+        `https://api.themoviedb.org/3/movie/${section}?language=en-US&page=${pageNum}&region=MX`,
         options
       );
       const data = await response.json();
@@ -34,18 +33,21 @@ const ContentMovies = () => {
       console.error("Error fetching movies:", error);
     } finally {
       setLoading(false);
+      if (onLoadComplete) onLoadComplete();
     }
   };
   useEffect(() => {
+    onLoading();
+    setLoading(true); // Inicia la carga
     console.log("Section changed");
-    if(section === 'popular'){
-      setSectionName('All')
-    }else if(section === 'now_playing'){
-      setSectionName('Now Playing')
-    }else if(section === 'upcoming'){
-      setSectionName('Upcoming')
-    }else if(section === 'top_rated'){
-      setSectionName('Top Rated')
+    if (section === "popular") {
+      setSectionName("All");
+    } else if (section === "now_playing") {
+      setSectionName("Now Playing");
+    } else if (section === "upcoming") {
+      setSectionName("Upcoming");
+    } else if (section === "top_rated") {
+      setSectionName("Top Rated");
     }
     setMoviesList([]);
     setPage(1);
@@ -56,7 +58,7 @@ const ContentMovies = () => {
   }, [page, section]);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPage((prevPage) => prevPage + 1); //la page actual + 1
   };
 
   return (
@@ -66,21 +68,34 @@ const ContentMovies = () => {
           <div className={styles.header}>
             <h1>Movies</h1>
             <div className={styles.subtitle}>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 10 24">
-  <rect x="11" y="4" width="1" height="16" fill="currentColor"/>
-</svg></span>
-            <h2>{sectionName}</h2>
-            <Dropdown
-              items={["All", "Now Playing", "Upcoming", "Top Rated"]}
-              onClickItems={[
-                () => setSection("popular"),
-                () => setSection("now_playing"),
-                () => setSection("upcoming"),
-                () => setSection("top_rated"),
-              ]}
-            />
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="2rem"
+                  height="2rem"
+                  viewBox="0 0 10 24"
+                >
+                  <rect
+                    x="11"
+                    y="4"
+                    width="1"
+                    height="16"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <h2>{sectionName}</h2>
+              <Dropdown
+                className={styles.subtitle_dropdown}
+                items={["All", "Now Playing", "Upcoming", "Top Rated"]}
+                onClickItems={[
+                  () => setSection("popular"),
+                  () => setSection("now_playing"),
+                  () => setSection("upcoming"),
+                  () => setSection("top_rated"),
+                ]}
+              />
             </div>
-            
           </div>
 
           <div className={styles.movies_sections}>
@@ -89,25 +104,33 @@ const ContentMovies = () => {
             </aside>
             <section>
               <div className={styles.movies_grid}>
-                {moviesList.map((movie, index) => {
-                  return (
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  moviesList.length > 0 &&
+                  moviesList.map((movie, index) => (
                     <NavLink
-                      key={index}
+                      key={movie.id} // Usar un identificador único en lugar del índice
                       className={styles.movie_card}
                       to={`/movie/detail/${movie.id}`}
                     >
                       <ItemCardComponent itemData={movie} />
                     </NavLink>
-                  );
-                })}
+                  ))
+                )}
               </div>
-              <button
+              {loading ? (
+                <></>
+                ) : (
+                  <button
                 className="button"
                 onClick={handleLoadMore}
                 disabled={loading}
               >
                 {loading ? "Loading..." : "Load More"}
               </button>
+                )}
+              
             </section>
           </div>
         </div>

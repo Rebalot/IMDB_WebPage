@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/ItemCard.module.css";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-export function ItemCardComponent({ itemData }) {
-  const imgURL = `https://media.themoviedb.org/t/p/w220_and_h330_face/${itemData.poster_path}`
-  console.log(itemData)
+import noImagePlaceholder from '../assets/images/placeholder/no_image.png';
+
+function ItemCardComponent({ itemData }) {
+  const imgURL = itemData.poster_path ? `https://media.themoviedb.org/t/p/w220_and_h330_face/${itemData.poster_path}` : noImagePlaceholder;
   function rating(value) {
     return Math.round(value * 10);
   }
@@ -40,7 +41,7 @@ export function ItemCardComponent({ itemData }) {
             </button>
             
             <p className={styles.card_overview}>
-              {itemData.overview}
+              {itemData.overview ? itemData.overview : <span style={{fontStyle: 'italic'}}>No description available.</span>}
             </p>
           </div>
         </div>

@@ -9,18 +9,13 @@ const RoutesIndex = ({ onLoadComplete, onLoading }) => {
 
     useEffect(() => {
         onLoading();
-        const loadData = async () => {
-            await new Promise(resolve => setTimeout(resolve, 4000));
-            onLoadComplete();
-        };
-    loadData();
     }, [location]);
 
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/:typeDetail/detail/:id' element={<DetallePelicula />} />
-            <Route path='/movie' element={<ContentMovies />} />
+            <Route path='/' element={<Home onLoadComplete={onLoadComplete}/>} />
+            <Route path='/:typeDetail/detail/:id' element={<DetallePelicula onLoadComplete={onLoadComplete}/>} />
+            <Route path='/movie' element={<ContentMovies onLoadComplete={onLoadComplete} onLoading={onLoading}/>} />
         </Routes>
     )
 };

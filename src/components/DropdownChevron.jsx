@@ -64,7 +64,7 @@ function DropdownChevronComponent({items, onClickItems}) {
 
       <Dropdown.Menu as={CustomMenu}>
       {items.map((item, index) => (
-        <Dropdown.Item  onClick={() => onClickItems[index]()}>{item}</Dropdown.Item>
+        <Dropdown.Item  onClick={() => onClickItems[index]()} key={index}>{item}</Dropdown.Item>
       ))}
       </Dropdown.Menu>
     </Dropdown>

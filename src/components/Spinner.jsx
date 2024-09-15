@@ -3,10 +3,8 @@ import { Spinner } from "react-bootstrap";
 
 export function SpinnerComponent() {
   return (
-    <div className={styles.spinner_wrapper}>
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+    <div className={styles.spinner_container}>
+      <Spinner animation="border" role="status" />
     </div>
   );
 }

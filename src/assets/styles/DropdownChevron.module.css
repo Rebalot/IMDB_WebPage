@@ -5,13 +5,10 @@
     --bg-hover-dropdown: rgba(245, 200, 0, 0.9);
 }
 
-:global(.dropdown){
-
-}
 .dropdown_btn{
     background-color: var(--bg-color);
     color: var(--bg-content);
-    padding: 0.28rem;
+    padding: 0.25rem;
     border-radius: 5px;
     /* margin-bottom: 0.6rem; */
 }

@@ -2,9 +2,10 @@ import { useEffect, useState} from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-
-function DetallePelicula() {
-
+import Spinner from "../components/Spinner";
+import styles from "../assets/styles/DetallePelicula.module.css";
+function DetallePelicula({ onLoadComplete }) {
+    const [loading, setLoading] = useState(true);
     const [detalleItem, setDetalleItem] = useState();
     const [imageLoaded, setImageLoaded] = useState(false);
     const { typeDetail, id } = useParams();
@@ -16,7 +17,7 @@ function DetallePelicula() {
         }
     };
     useEffect(() => {
-        
+        setLoading(true); // Inicia la carga
         const consultarDetalleItem = async () => {
             try {
                 const response = await fetch(`https://api.themoviedb.org/3/${typeDetail}/${id}`, options)
@@ -29,6 +30,9 @@ function DetallePelicula() {
             }
             catch (e) {
                 console.log(e)
+            }finally {
+                setLoading(false);
+                if (onLoadComplete) onLoadComplete();
             }
         }
         consultarDetalleItem();
@@ -43,39 +47,40 @@ function DetallePelicula() {
 
     return (
         <>
-        <div style={{height:'90vh'}}>
-        {detalleItem && (
-            <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <Card style={{ width: '80vw'}}>
-                <Card.Img variant="top" src={detalleItem.imageURL} style={{ position: 'relative', border: 'none' }} onLoad={handleImageLoad}/>
-                <Card.Header style={{zIndex:'10', border:'5px solid purple', 
-                    borderRadius:"200px", height:'100px', 
-                    position: 'absolute', right:"30px", top:'30px', backgroundColor:"#6e779c", 
-                    color:"white", display:'flex', alignItems: 'center', textAlign:"center", fontSize:'40px'}}>
+        <main className={styles.main_detalle}>
+        {loading ? (
+              <Spinner />
+            ) : (
+              detalleItem && (
+                <section>
+                <Card>
+                <Card.Img variant="top" src={detalleItem.imageURL} onLoad={handleImageLoad}/>
+                <Card.Header>
                     {redondearVotos(detalleItem.vote_average)}</Card.Header>
                 {imageLoaded && (
-                <ListGroup variant="bottom" className="list-group-flush" style={{ position: 'absolute', bottom: "-188px", width: '100%'}}>
-                    <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', fontSize: '30px' }}>
-                    {detalleItem.hasOwnProperty("original_title") ? detalleItem.original_title : detalleItem.name}
+                <ListGroup variant="bottom" className="list-group-flush">
+                    <ListGroup.Item>
+                    {detalleItem.hasOwnProperty("title") ? detalleItem.title : detalleItem.name}
                     </ListGroup.Item>
-                    <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+                    <ListGroup.Item>
                     {detalleItem.overview}
                     </ListGroup.Item>
-                    <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+                    <ListGroup.Item>
                     Sitio Web: <a href={detalleItem.homepage}>{detalleItem.homepage}</a>
                     </ListGroup.Item>
-                    <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+                    <ListGroup.Item>
                     País: {detalleItem.origin_country}
                     </ListGroup.Item>
-                    <ListGroup.Item style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+                    <ListGroup.Item>
                     Fecha de estreno: {detalleItem.release_date}
                     </ListGroup.Item>
                 </ListGroup>
                 )}
                 </Card>
-            </div>
-        )}
-        </div>
+            </section>
+              )
+            )}
+        </main>
         </>
     );
 }

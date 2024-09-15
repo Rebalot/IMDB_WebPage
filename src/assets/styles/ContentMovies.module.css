@@ -13,6 +13,9 @@
     gap: 10px;
     color: var(--text-secondary);
 }
+.subtitle > :global(.dropdown){
+    margin-top: 0.3rem !important;
+}
 .main_movies{
     display: flex;
     justify-content: center;
@@ -27,10 +30,12 @@
     display: grid;
     grid-template-columns: 220px 1fr;
 }
+.movies_sections section{
+    padding-left: 30px;
+}
 .movies_grid {
     display: grid;
     gap: 20px;
-    padding-left: 30px;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 
 }

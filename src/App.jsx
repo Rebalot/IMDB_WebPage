@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
   const [isRoutesLoaded, setIsRoutesLoaded] = useState(false);
-
+  
   const handleRoutesLoadComplete = () => {
     setIsRoutesLoaded(true);
   };
@@ -18,6 +18,7 @@ function App() {
   useEffect(() => {
     // console.log('isRoutesLoaded',isRoutesLoaded)
   }, [isRoutesLoaded]);
+  
   return (
     <BrowserRouter>
       <Navbar />

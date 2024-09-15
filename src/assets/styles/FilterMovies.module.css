@@ -1,10 +1,14 @@
 .filter_panel{
-    background-color: #ffffff;
-    height: 100%;
     width: 100%;
     color: black;
 }
+.filter_panel section{
+    background-color: #ffffff;
+    padding: 14px 16px;
+    border-radius: 8px;
+}
 .filter_panel h4{
+    font-size: 18px !important;
     font-weight: 600 !important;
 
 }
