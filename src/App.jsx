@@ -15,9 +15,6 @@ function App() {
   const handleRoutesLoading = () => {
     setIsRoutesLoaded(false);
   };
-  useEffect(() => {
-    // console.log('isRoutesLoaded',isRoutesLoaded)
-  }, [isRoutesLoaded]);
   
   return (
     <BrowserRouter>

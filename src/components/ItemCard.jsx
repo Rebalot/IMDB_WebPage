@@ -2,19 +2,14 @@ import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/ItemCard.module.css";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import noImagePlaceholder from '../assets/images/placeholder/no_image.png';
+import { convertDate } from "../utils/utils";
 
 function ItemCardComponent({ itemData }) {
   const imgURL = itemData.poster_path ? `https://media.themoviedb.org/t/p/w220_and_h330_face/${itemData.poster_path}` : noImagePlaceholder;
   function rating(value) {
     return Math.round(value * 10);
   }
-  function convertDate(dateString) {
-  const [year, month, day] = dateString.split('-');
-
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-  return `${monthNames[Number(month) - 1]} ${Number(day)}, ${year}`;
-}
+  
     return (
       <div className={styles.card}>
         <div className={styles.card_poster} >

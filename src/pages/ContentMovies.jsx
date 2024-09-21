@@ -6,12 +6,21 @@ import ItemCardComponent from "../components/ItemCard";
 import Filter from "../components/FilterMovies";
 import Dropdown from "../components/DropdownChevron";
 import Spinner from "../components/Spinner";
+
+
 const ContentMovies = ({ onLoadComplete, onLoading }) => {
   const [moviesList, setMoviesList] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [section, setSection] = useState("popular");
-  const [sectionName, setSectionName] = useState("All");
+  const [filter, setFilter] = useState(false); //filter data
+  
+  const sectionNames = {
+    popular: "All",
+    now_playing: "Now Playing",
+    upcoming: "Upcoming",
+    top_rated: "Top Rated",
+  };
   const options = {
     method: "GET",
     headers: {
@@ -20,15 +29,22 @@ const ContentMovies = ({ onLoadComplete, onLoading }) => {
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNDEzNjFjN2U4MzQzYmU5NTdiNGE1MGU1OWIxNzNiZiIsIm5iZiI6MTcyMzE3MzgxOC4wMzYxMDUsInN1YiI6IjY2YjQzNTFmYjJkMWM1NWM3OTZmMjNmMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.L24aOuGVERuuekN14gSCAXJMte02hky1GALzw9O1w4o",
     },
   };
-  const consultarMovieSection = async (pageNum) => {
+  const consultarMovieSection = async (pageNum, filterValue = false) => {
+    let newURL;
+    if (!filterValue) {
+      newURL = `https://api.themoviedb.org/3/movie/${section}?language=en-US&page=${pageNum}&region=MX`;
+    } else {
+      newURL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageNum}&sort_by=${filterValue.sort}&region=MX`;
+    }
+  
+    console.log(newURL);
     try {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${section}?language=en-US&page=${pageNum}&region=MX`,
-        options
-      );
+      const response = await fetch(newURL, options);
       const data = await response.json();
-      console.log("data list: ", data);
-      setMoviesList((prevMovies) => [...prevMovies, ...data.results]);
+  
+      setMoviesList((prevMovies) =>
+        pageNum === 1 ? data.results : [...prevMovies, ...data.results]
+      );
     } catch (error) {
       console.error("Error fetching movies:", error);
     } finally {
@@ -36,29 +52,51 @@ const ContentMovies = ({ onLoadComplete, onLoading }) => {
       if (onLoadComplete) onLoadComplete();
     }
   };
-  useEffect(() => {
-    onLoading();
-    setLoading(true); // Inicia la carga
-    console.log("Section changed");
-    if (section === "popular") {
-      setSectionName("All");
-    } else if (section === "now_playing") {
-      setSectionName("Now Playing");
-    } else if (section === "upcoming") {
-      setSectionName("Upcoming");
-    } else if (section === "top_rated") {
-      setSectionName("Top Rated");
-    }
-    setMoviesList([]);
-    setPage(1);
-  }, [section]);
+  
 
   useEffect(() => {
-    consultarMovieSection(page);
-  }, [page, section]);
+    console.log('section', section)
+    
+    const fetchMovies = async () => {
+      setMoviesList([]);
+      setPage(1);
+      setLoading(true);
+      onLoading();
+
+      if (filter && section === 'popular') {
+        consultarMovieSection(1, filter);
+      } 
+      if(!filter || section ==! 'popular'){
+        consultarMovieSection(1);
+      }
+    };
+
+    fetchMovies();
+  }, [filter, section]);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1); //la page actual + 1
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      if (filter) {
+        consultarMovieSection(page, filter);
+      } else {
+        consultarMovieSection(page);
+      }
+    }
+  }, [page]);
+
+  const handleFormSubmit = (filterValues) => {
+    console.log("Filtros seleccionados en el formulario:", filterValues);
+    setFilter(filterValues);
+    setSection("popular");
+  };
+  const handleDropdown = (sectionValue) => {
+    console.log(`Sección seleccionada: ${sectionValue}`);
+    setFilter(false);   
+    setSection(sectionValue);
   };
 
   return (
@@ -84,23 +122,18 @@ const ContentMovies = ({ onLoadComplete, onLoading }) => {
                   />
                 </svg>
               </span>
-              <h2>{sectionName}</h2>
+              <h2>{sectionNames[section]}</h2>
               <Dropdown
                 className={styles.subtitle_dropdown}
                 items={["All", "Now Playing", "Upcoming", "Top Rated"]}
-                onClickItems={[
-                  () => setSection("popular"),
-                  () => setSection("now_playing"),
-                  () => setSection("upcoming"),
-                  () => setSection("top_rated"),
-                ]}
+                onClickItems={["popular", "now_playing", "upcoming", "top_rated"].map((sectionValue) => () => handleDropdown(sectionValue))}
               />
             </div>
           </div>
 
           <div className={styles.movies_sections}>
             <aside>
-              <Filter></Filter>
+              <Filter handleFormSubmit={handleFormSubmit}></Filter>
             </aside>
             <section>
               <div className={styles.movies_grid}>
@@ -110,7 +143,7 @@ const ContentMovies = ({ onLoadComplete, onLoading }) => {
                   moviesList.length > 0 &&
                   moviesList.map((movie, index) => (
                     <NavLink
-                      key={movie.id} // Usar un identificador único en lugar del índice
+                      key={`${movie.id}-${index}`}
                       className={styles.movie_card}
                       to={`/movie/detail/${movie.id}`}
                     >
