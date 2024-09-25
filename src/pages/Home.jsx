@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar";
-import { NavLink } from "react-router-dom";
 import styles from "../assets/styles/Home.module.css";
 import Carousel from "../components/CarouselTrailers";
 import PosterGallery from "../components/PosterGallery";
@@ -8,8 +6,9 @@ import Spinner from "../components/Spinner";
 import { fetchTrailersData } from '../services/trailersService';
 import { fetchTrendingData } from '../services/carouselTrendingService';
 import { fetchByPlatformData } from '../services/carouselByPlatformService';
+import { useLoading } from "../contexts/LoadingContext";
 
-const Home = ({ onLoadComplete }) => {
+const Home = () => {
   const options = {
     method: "GET",
     headers: {
@@ -23,7 +22,7 @@ const Home = ({ onLoadComplete }) => {
   const [trailersData, setTrailersData] = useState({})
   const [trendingData, setTrendingData] = useState({});
   const [byPlatformData, setByPlatformData] = useState({});
-  
+  const { handleRoutesLoadComplete, handleRoutesLoading } = useLoading();
 
   //////////////////////////
   useEffect(() => {
@@ -43,7 +42,7 @@ const Home = ({ onLoadComplete }) => {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
-        if (onLoadComplete) onLoadComplete();
+        handleRoutesLoadComplete();
       }
     }
   

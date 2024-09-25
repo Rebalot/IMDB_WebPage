@@ -2,30 +2,27 @@ import { BrowserRouter } from 'react-router-dom';
 import RoutesIndex from './routes/RoutesIndex';
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
-import { useEffect, useState } from 'react';
 import './App.css';
+import { useLoading, LoadingProvider } from './contexts/LoadingContext';
 
-function App() {
-  const [isRoutesLoaded, setIsRoutesLoaded] = useState(false);
-  
-  const handleRoutesLoadComplete = () => {
-    setIsRoutesLoaded(true);
-  };
+function AppContent() {
+  const { isRoutesLoaded } = useLoading();
 
-  const handleRoutesLoading = () => {
-    setIsRoutesLoaded(false);
-  };
-  
   return (
     <BrowserRouter>
       <Navbar />
-      <RoutesIndex
-        onLoadComplete={handleRoutesLoadComplete}
-        onLoading={handleRoutesLoading}
-      />
+      <RoutesIndex />
       {isRoutesLoaded && <Footer />}
     </BrowserRouter>
   );
 }
 
-export default App
+function App() {
+  return (
+    <LoadingProvider>
+      <AppContent />
+    </LoadingProvider>
+  );
+}
+
+export default App;

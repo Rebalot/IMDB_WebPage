@@ -16,7 +16,7 @@
 .subtitle > :global(.dropdown){
     margin-top: 0.3rem !important;
 }
-.main_movies{
+.main_page{
     display: flex;
     justify-content: center;
     padding-top: 60px;
@@ -26,27 +26,27 @@
     width: 100%;
     padding: 30px 40px;
 }
-.movies_sections{
+.page_sections{
     display: grid;
     grid-template-columns: 220px 1fr;
 }
-.movies_sections section{
+.page_sections section{
     padding-left: 30px;
 }
-.movies_grid {
+.page_grid {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 
 }
-.movie_card {
+.card {
 width: 100%;
 height: 100%;
 max-width: 200px;
 margin: auto;
 }
 @media (max-width: 545px) {
-    .movies_grid {
+    .page_grid {
         grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     }
 }

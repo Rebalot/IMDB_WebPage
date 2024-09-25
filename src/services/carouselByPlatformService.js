@@ -1,7 +1,7 @@
-import { mezclarItems, mapData } from "../helpers/helpers";
+import { mezclarItems, mapData, fetchData } from "../helpers/helpers";
 export async function fetchByPlatformData(options) {
-    const urlMovieBase = "https://api.themoviedb.org/3/discover/movie";
-    const urlTVBase = "https://api.themoviedb.org/3/discover/tv";
+    const urlBase = "https://api.themoviedb.org/3/discover";
+
     const watchProviderIDs = {
       'Netflix': 8,
       "Disney Plus": 337,
@@ -13,7 +13,11 @@ export async function fetchByPlatformData(options) {
     };
     const allDataArray = await Promise.all(
         Object.entries(watchProviderIDs).map(async ([platformName, id]) => {
-            const allData = await popularByPlatformData(id);
+          //watch_region (MX), with_watch_providers (337 Disney +, 119 Amazon Prime Video, 167 ClaroVideo, 2 Apple Tv, 8 Netflix, 283 Crunchyroll, 1899 Max )
+            const allData = await fetchData({
+              urlMovie: `${urlBase}/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${id}`,
+              urlTV: `${urlBase}/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${id}`},
+            options);
             return {
             watch_provider: platformName,
             watch_provider_id: id,
@@ -24,25 +28,6 @@ export async function fetchByPlatformData(options) {
     
     return transformarDataCarousel(allDataArray);
 
-    async function popularByPlatformData(watchProviderID) {
-      //watch_region (MX), with_watch_providers (337 Disney +, 119 Amazon Prime Video, 167 ClaroVideo, 2 Apple Tv, 8 Netflix, 283 Crunchyroll, 1899 Max )
-      const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${watchProviderID}`;
-      const urlTV = `${urlTVBase}?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&watch_region=MX&with_watch_providers=${watchProviderID}`;
-
-      try {
-        const [movieResponse, tvResponse] = await Promise.all([
-          fetch(urlMovie, options),
-          fetch(urlTV, options),
-        ]);
-
-        const movieData = await movieResponse.json();
-        const tvData = await tvResponse.json();
-
-        return { movieData, tvData };
-      } catch (error) {
-        console.error("Error al obtener data", error);
-      }
-    }
     function transformarDataCarousel(arrayAFiltrar) {
 
       const dataTransformada = arrayAFiltrar.map((plataforma) => {

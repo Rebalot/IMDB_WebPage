@@ -5,6 +5,7 @@ import noImagePlaceholder from '../assets/images/placeholder/no_image.png';
 import { convertDate } from "../utils/utils";
 
 function ItemCardComponent({ itemData }) {
+  // console.log(itemData)
   const imgURL = itemData.poster_path ? `https://media.themoviedb.org/t/p/w220_and_h330_face/${itemData.poster_path}` : noImagePlaceholder;
   function rating(value) {
     return Math.round(value * 10);
@@ -77,8 +78,8 @@ function ItemCardComponent({ itemData }) {
             </CircularProgressbar>
           </div>
           <div className={styles.card_title_date}>
-          <h2 className={styles.card_title}>{itemData.title}</h2>
-          <span>{convertDate(itemData.release_date)}</span>
+          <h2 className={styles.card_title}>{itemData.title ? itemData.title : itemData.name}</h2>
+          <span>{convertDate(itemData.release_date ? itemData.release_date : itemData.first_air_date)}</span>
           </div>
         </div>
       </div>

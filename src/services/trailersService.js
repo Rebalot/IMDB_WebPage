@@ -1,9 +1,14 @@
-import { mezclarItems } from "../helpers/helpers";
+import { fetchData, mezclarItems } from "../helpers/helpers";
+import { getLastWeekDate } from "../utils/utils";
 export async function fetchTrailersData(options) {
-    const urlMovieBase = "https://api.themoviedb.org/3/discover/movie";
-    const urlTVBase = "https://api.themoviedb.org/3/discover/tv";
+    const urlBase = "https://api.themoviedb.org/3/discover";
     
-    const allData = await listaProximasData();
+    //primary_release_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01)
+    //first_air_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01), with_origin_country (US, para evitar que hayan muchos resultados de origen cn, kr, jp que no suelen ser de gusto general)
+    const allData = await fetchData({
+      urlMovie: `${urlBase}/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=${getLastWeekDate()}&sort_by=popularity.desc`,
+      urlTV: `${urlBase}/tv?first_air_date.gte=${getLastWeekDate()}&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`},
+      options);
     if (!allData) return null;
 
       const listaConTrailerMovies = await obtenerListaConTrailer(
@@ -21,27 +26,6 @@ export async function fetchTrailersData(options) {
   
          return mezclarItems({ movie_trailer: dataParaCarouselMovies, tvshow_trailer: dataParaCarouselTv }, 4);
       }return null;
-
-  async function listaProximasData() {
-    //primary_release_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01)
-    const urlMovie = `${urlMovieBase}?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=2024-08-20&sort_by=popularity.desc`;
-
-    //first_air_date.gte (las estrenadas o próximas arriba de una fecha ej. 2024-08-01), with_origin_country (US, para evitar que hayan muchos resultados de origen cn, kr, jp que no suelen ser de gusto general)
-    const urlTV = `${urlTVBase}?first_air_date.gte=2024-08-20&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US`;
-
-    try {
-      const [movieResponse, tvResponse] = await Promise.all([
-        fetch(urlMovie, options),
-        fetch(urlTV, options),
-      ]);
-
-      const movieData = await movieResponse.json();
-      const tvData = await tvResponse.json();
-      return { movieData, tvData };
-    } catch (error) {
-      console.error("Error al obtener data", error);
-    }
-  }
 
   async function obtenerListaConTrailer(tipo, arrayAIterar) {
     if (arrayAIterar.length === 0) return;

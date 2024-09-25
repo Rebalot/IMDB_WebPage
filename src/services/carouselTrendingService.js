@@ -1,12 +1,14 @@
-import { mapData } from "../helpers/helpers";
+import { fetchData, mapData } from "../helpers/helpers";
 
 export async function fetchTrendingData(options) {
-    const urlTrendingMovie =
-        "https://api.themoviedb.org/3/trending/movie/day?language=en-US";
-      const urlTrendingTv =
-        "https://api.themoviedb.org/3/trending/tv/day?language=en-US";
+    const urlBase =
+        "https://api.themoviedb.org/3/trending";
+
         
-    const allData = await trendingData();
+    const allData = await fetchData({
+      urlMovie: `${urlBase}/movie/day?language=en-US`,
+      urlTV: `${urlBase}/tv/day?language=en-US`},
+      options);
     if (!allData) return null;
 
       const listaTrendingMovies = mapData(allData.movieData.results);

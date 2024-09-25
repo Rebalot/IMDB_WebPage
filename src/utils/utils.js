@@ -9,3 +9,10 @@ export function convertDate(dateString) {
     }
     return 'N/A';
 }
+
+export function getLastWeekDate() {
+    const today = new Date();
+    today.setDate(today.getDate() - 7); // Restar 7 días
+    // console.log(today.toISOString())
+    return today.toISOString().split('T')[0]; // Convertir a formato 'YYYY-MM-DD'
+};
