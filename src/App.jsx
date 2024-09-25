@@ -7,7 +7,7 @@ import { useLoading, LoadingProvider } from './contexts/LoadingContext';
 
 function AppContent() {
   const { isRoutesLoaded } = useLoading();
-
+  
   return (
     <BrowserRouter>
       <Navbar />

@@ -25,10 +25,11 @@ const useMedia = (initialSection, mediaType) => {
     } else {
       newURL = `https://api.themoviedb.org/3/discover/${mediaType}?include_adult=false&include_video=false&language=en-US&page=${pageNum}&sort_by=${filterValue.sort}&with_genres=${filterValue.genres}&region=MX`;
     }
-
+    console.log('URL: ', newURL);
     try {
       const response = await fetch(newURL, options);
       const data = await response.json();
+      console.log('Content fetch: ', data)
       setMediaList((prevMedia) =>
         pageNum === 1 ? data.results : [...prevMedia, ...data.results]
       );
@@ -73,6 +74,7 @@ const useMedia = (initialSection, mediaType) => {
 
   const handleFormSubmit = (filterValues) => {
     setFilter(filterValues);
+    console.log('Filtros seleccionados: ', filterValues)
     setSection("popular");
   };
 
