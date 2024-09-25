@@ -4,11 +4,15 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Spinner from "../components/Spinner";
 import styles from "../assets/styles/DetallePelicula.module.css";
-function DetallePelicula({ onLoadComplete }) {
+import { useLoading } from "../contexts/LoadingContext";
+
+function DetallePelicula() {
     const [loading, setLoading] = useState(true);
     const [detalleItem, setDetalleItem] = useState();
     const [imageLoaded, setImageLoaded] = useState(false);
     const { typeDetail, id } = useParams();
+    const { handleRoutesLoadComplete, handleRoutesLoading } = useLoading();
+
     const options = {
         method: 'GET',
         headers: {
@@ -32,7 +36,7 @@ function DetallePelicula({ onLoadComplete }) {
                 console.log(e)
             }finally {
                 setLoading(false);
-                if (onLoadComplete) onLoadComplete();
+                handleRoutesLoadComplete();
             }
         }
         consultarDetalleItem();
